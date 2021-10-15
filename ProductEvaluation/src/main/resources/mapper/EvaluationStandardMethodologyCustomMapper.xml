@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.EvaluationStandardMethodologyCustomMapper">
+    <resultMap id="EvaluationStandardMethodologyDataMap" type="com.qhzk.pe.data.EvaluationStandardMethodologyData"
+               extends="com.qhzk.pe.mapper.BaseDataMapper.BaseDataMappingColumn">
+        <result column="standardid" jdbcType="BIGINT" property="standardid"/>
+        <result column="methodologycode" jdbcType="VARCHAR" property="methodologycode"/>
+        <result column="methodologyname" jdbcType="VARCHAR" property="methodologyname"/>
+    </resultMap>
+    <sql id="MyTableColumn">
+    standardid,methodologycode,methodologyname
+    </sql>
+    <select id="countEvaluationStandardMethodologyPageInfo" parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(*) from t_pe_evaluation_standard_methodology where pkid is not null
+        <if test="value.standardid != null">
+            and standardid like CONCAT('%', #{ value.standardid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.methodologycode != null">
+            and methodologycode like CONCAT('%', #{ value.methodologycode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.methodologyname != null">
+            and methodologyname like CONCAT('%', #{ value.methodologyname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+    </select>
+    <select id="queryEvaluationStandardMethodologyPageInfo" parameterType="java.lang.String" resultMap="EvaluationStandardMethodologyDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_evaluation_standard_methodology
+        where pkid is not null
+        <if test="value.standardid != null">
+            and standardid like CONCAT('%', #{ value.standardid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.methodologycode != null">
+            and methodologycode like CONCAT('%', #{ value.methodologycode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.methodologyname != null">
+            and methodologyname like CONCAT('%', #{ value.methodologyname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+        order by createtime desc
+        <if test="page != null">
+            <if test="page.start != null and page.pageSize != null">
+                limit #{page.start},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="EvaluationStandardMethodologyDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_evaluation_standard_methodology where pkid =  #{pkid,jdbcType=BIGINT} and isdelete ="N"
+    </select>
+
+    <update id="deleteLogicByPrimaryKey" parameterType="java.lang.Long">
+        UPDATE t_pe_evaluation_standard_methodology SET `isdelete` = 'Y' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="batchUpdateValues" parameterType="java.util.List">
+        <foreach collection="values" item="value" index="index" separator=";">
+            UPDATE t_pe_evaluation_standard_methodology
+            <set>
+                <if test="val.standardid != null">
+                    standardid =#{ value.standardid ,jdbcType=BIGINT},
+                </if>
+                <if test="val.methodologycode != null">
+                    methodologycode =#{ value.methodologycode ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.methodologyname != null">
+                    methodologyname =#{ value.methodologyname ,jdbcType=VARCHAR},
+                </if>
+                <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchModifyColumn"/>
+            </set>
+            WHERE pkid = #{value.pkid,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsertValues" parameterType="java.util.List">
+        INSERT INTO t_pe_evaluation_standard_methodology(
+        standardid,
+        methodologycode,
+        methodologyname,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        <foreach collection="values" item="value" index="index" separator=",">
+            (
+            #{ value.standardid ,jdbcType=BIGINT },
+            #{ value.methodologycode ,jdbcType=VARCHAR },
+            #{ value.methodologyname ,jdbcType=VARCHAR },
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchInsertColumnValue"/>
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.qhzk.pe.data.EvaluationStandardMethodologyData">
+        UPDATE t_pe_evaluation_standard_methodology
+        <set>
+            <if test="standardid != null">
+                standardid =#{ standardid ,jdbcType=BIGINT},
+            </if>
+            <if test="methodologycode != null">
+                methodologycode =#{ methodologycode ,jdbcType=VARCHAR},
+            </if>
+            <if test="methodologyname != null">
+                methodologyname =#{ methodologyname ,jdbcType=VARCHAR},
+            </if>
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataModifyColumn"/>
+        </set>
+        WHERE pkid =  #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.qhzk.pe.data.EvaluationStandardMethodologyData" useGeneratedKeys="true" keyProperty="pkid">
+        INSERT INTO t_pe_evaluation_standard_methodology(
+        standardid,
+        methodologycode,
+        methodologyname,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        (
+        #{ standardid ,jdbcType=BIGINT },
+        #{ methodologycode ,jdbcType=VARCHAR },
+        #{ methodologyname ,jdbcType=VARCHAR },
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumnValue"/>
+        )
+    </insert>
+
+    <delete id="deleteRealByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pe_evaluation_standard_methodology where pkid =  #{pkid,jdbcType=BIGINT}
+    </delete>
+
+    <update id="batchLogicDeleteInfo" parameterType="java.lang.String">
+        UPDATE t_pe_evaluation_standard_methodology SET `isdelete` = 'Y' WHERE `pkid`
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{infoid,jdbcType=BIGINT}
+        </foreach>
+        )
+    </update>
+
+    <delete id="batchRealDeleteInfo" parameterType="java.lang.String">
+        delete from t_pe_evaluation_standard_methodology where pkid
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{ infoid,jdbcType=BIGINT }
+        </foreach>
+        )
+    </delete>
+</mapper>

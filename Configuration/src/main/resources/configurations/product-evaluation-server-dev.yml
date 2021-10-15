@@ -1,0 +1,124 @@
+server:
+  port: 4001
+  servlet:
+    context-path: /pe #（不同SpringBoot版本会有区别，这里是采用2.x）
+spring:
+  application:
+    name: product-evaluation-server
+#  jackson:
+#    generator:
+#      write_numbers_as_strings: true
+  zipkin: #键
+    base-url: http://192.168.1.152:9411
+    sleuth: #关键
+      sampler:
+      #采样率值介于 0 到 1 之间，1 则表示全部采集
+      probability: 1
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: com.mysql.jdbc.Driver             # mysql驱动包
+    url: jdbc:mysql://192.168.1.50:3308/pe?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true
+    username: root
+    password: root
+    #druid 数据源专有配置
+    druid:
+      filter:
+        wall:
+          config:
+            multi-statement-allow: true
+            db-type: mysql
+            enabled: true
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+    #配置监控统计拦截的filters，stat:监控统计、log4j：日志记录、wall：防御sql注入
+    #如果允许时报错  java.lang.ClassNotFoundException: org.apache.log4j.Priority
+    #则导入 log4j 依赖即可，Maven 地址：https://mvnrepository.com/artifact/log4j/log4j
+    filters: stat,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+    #Redis
+    # 缓存时长，单位秒
+    #cache.default-exp=100020
+    redis:
+      database: 0
+      host: http://tsinghua.gitlab.com
+      port: 6379
+      # 密码
+      password:
+      # 连接超时时间 单位 ms（毫秒）
+      timeout: 10000ms
+      #    集群环境打开下面注释，单机不需要打开
+      #    cluster:
+      #      集群信息
+      #      nodes: xxx.xxx.xxx.xxx:xxxx,xxx.xxx.xxx.xxx:xxxx,xxx.xxx.xxx.xxx:xxxx
+      #      #默认值是5 一般当此值设置过大时，容易报：Too many Cluster redirections
+      #      maxRedirects: 3
+
+      # 连接池中的最大空闲连接，默认值也是8
+      lettuce:
+        pool:
+          max-idle: 8
+          # 连接池中的最小空闲连接，默认值也是0
+          min-idle: 0
+          # 如果赋值为-1，则表示不限制
+          max-wait: 2000ms
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+
+
+#pagehelper分页插件配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+
+eureka:
+  client:
+    #表示是否将自己注册进Eurekaserver默认为true。
+    register-with-eureka: true
+    #是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://127.0.0.1:1026/eureka
+
+logging:
+  level:
+    com.qhzk.pe.mapper: debug
+
+feign:
+  #开启
+#  hystrix:
+#    enabled: true
+  client:
+    config:
+      default:
+        #建立连接所用的时间，适用于网络状况正常的情况下，两端连接所需要的时间
+        ConnectTimeOut: 60000
+        #指建立连接后从服务端读取到可用资源所用的时间
+        ReadTimeOut: 60000
+
+#hystrix配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            #feign整合hystrix 光设置Hystrix 超时没用的要配合ribbon超时
+            timeoutInMilliseconds: 120000
+      circuitBreaker:
+        #默认20 ，熔断的阈值，如何user服务报错满足6次，熔断器就会打开，就算order之后请求正确的数据也不行。
+        requestVolumeThreshold: 6
+        #默认5S ， 等5S之后熔断器会处于半开状态，然后下一次请求的正确和错误讲决定熔断器是否真的关闭和是否继续打开
+        sleepWindowInMilliseconds: 120000

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.as.mapper.DeptMapper">
+    <resultMap id="DeptMap" type="com.qhzk.as.entity.Dept">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="parentid" jdbcType="BIGINT" property="parentid"/>
+        <result column="companyid" jdbcType="BIGINT" property="companyid"/>
+        <result column="level" jdbcType="VARCHAR" property="level"/>
+        <result column="seq" jdbcType="VARCHAR" property="seq"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operatetime" jdbcType="TIMESTAMP" property="operatetime"/>
+        <collection property="users" column="{deptid = id}" ofType="com.qhzk.as.mapper.UserMapper.UserDataMap"
+                    select="com.qhzk.as.mapper.UserMapper.queryUsersByDId"/>
+        <collection property="childs" column="{deptid = id}" ofType="DeptMap"
+                    select="queryDeptUsersByPId"/>
+    </resultMap>
+    <sql id="DeptColumn">
+        id,name,parentid,companyid,level,seq,status,remark,creator,createtime,operator,operatetime
+    </sql>
+    <select id="queryDeptUsersById" parameterType="java.lang.Long"  resultMap="DeptMap">
+        SELECT
+        <include refid="DeptColumn"/>
+        FROM t_as_dept
+        where  id  = #{ id,jdbcType = BIGINT }
+    </select>
+
+    <select id="queryDeptUsersByPId"  resultMap="DeptMap">
+        SELECT
+        <include refid="DeptColumn"/>
+        FROM t_as_dept
+        where  parentid  = #{ deptid,jdbcType = BIGINT }
+    </select>
+
+</mapper>

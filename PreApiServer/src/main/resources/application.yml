@@ -1,0 +1,14 @@
+server:
+  port: 3001
+  servlet:
+    context-path: /api #（不同SpringBoot版本会有区别，这里是采用2.x）
+spring:
+  application:
+    name: pre-api-server
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:1026/eureka

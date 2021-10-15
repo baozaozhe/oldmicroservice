@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <properties resource="generator.properties"/>
+    <context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$" />
+            <property name="replaceString" value="Criteria" />
+        </plugin>
+        <!-- 为模型生成序列化方法-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!--生成mapper.xml时覆盖原文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <commentGenerator type="com.qhzk.autogen.mybatis.CommentGenerator">
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.connectionURL}"
+                        userId="${jdbc.userId}"
+                        password="${jdbc.password}">
+            <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.qhzk.pe.entities" targetProject="generator/src/main/java/"/>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="generator/src/main/resources/"/>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.qhzk.pe.mapper"
+                             targetProject="generator/src/main/java/"/>
+        <!--生成全部表tableName设为%-->
+        <!--<table tableName="%">-->
+            <!--&lt;!&ndash;<generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+
+        <!--<table tableName="t_pe_attributes" domainObjectName="Attributes" />-->
+        <!--<table tableName="t_pe_dictionary" domainObjectName="Dictionary" />-->
+        <!--<table tableName="t_pe_evaluation_standard" domainObjectName="EvaluationStandard" />-->
+        <!--<table tableName="t_pe_evaluation_standard_item" domainObjectName="EvaluationStandardItem" />-->
+        <!--<table tableName="t_pe_evaluation_standard_methodology" domainObjectName="EvaluationStandardMethodology" />-->
+        <!--<table tableName="t_pe_evaluation_standard_scope" domainObjectName="EvaluationStandardScope" />-->
+        <!--<table tableName="t_pe_expert" domainObjectName="Expert" />-->
+        <!--<table tableName="t_pe_indicatorVariables" domainObjectName="IndicatorVariables" />-->
+        <!--<table tableName="t_pe_indicatorVariables_values" domainObjectName="IndicatorVariablesValues" />-->
+        <!--<table tableName="t_pe_specimen" domainObjectName="Specimen" />-->
+        <!--<table tableName="t_pe_specimen_attrs" domainObjectName="SpecimenAttrs"/>-->
+        <!--<table tableName="t_pe_task" domainObjectName="Task" />-->
+        <!--<table tableName="t_pe_task_expert" domainObjectName="TaskExpert"/>-->
+        <!--<table tableName="t_pe_task_expert_task" domainObjectName="TaskExpertTask"/>-->
+        <!--<table tableName="t_pe_task_expert_task_results" domainObjectName="TaskExpertTaskResults" />-->
+        <!--<table tableName="t_pe_task_specimen" domainObjectName="TaskSpecimen" />-->
+        <!--<table tableName="t_pe_task_standard" domainObjectName="TaskStandard" />-->
+        <!--enableCountByExample="false"  enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"-->
+
+        <!--<table tableName="t_as_company" domainObjectName="Company" />-->
+        <!--<table tableName="t_as_dept" domainObjectName="Dept" />-->
+        <!--<table tableName="t_as_dept_user" domainObjectName="DeptUser" />-->
+        <!--<table tableName="t_as_file" domainObjectName="File" />-->
+        <!--<table tableName="t_as_menu" domainObjectName="Menu" />-->
+        <!--<table tableName="t_as_operate" domainObjectName="Operate" />-->
+        <!--<table tableName="t_as_pelement" domainObjectName="Pelement" />-->
+        <!--<table tableName="t_as_permiss_file" domainObjectName="PermissFile" />-->
+        <!--<table tableName="t_as_permiss_pelement" domainObjectName="PermissPelement" />-->
+        <!--<table tableName="t_as_permissions" domainObjectName="Permissions" />-->
+        <!--<table tableName="t_as_permissions_menu" domainObjectName="PermissionMenu" />-->
+        <!--<table tableName="t_as_role" domainObjectName="Role" />-->
+        <!--<table tableName="t_as_role_permissions" domainObjectName="RolePermissions" />-->
+        <!--<table tableName="t_as_role_user" domainObjectName="RoleUser" />-->
+        <!--<table tableName="t_as_ugroup" domainObjectName="Ugroup" />-->
+        <!--<table tableName="t_as_ugroup_role" domainObjectName="UgroupRole" />-->
+        <!--<table tableName="t_as_user" domainObjectName="User" />-->
+        <!--<table tableName="t_as_user_ugroup" domainObjectName="UserUgroup" />-->
+        <!--<table tableName="t_as_company_user" domainObjectName="CompanyUser" />-->
+        <!--<table tableName="t_as_permiss_operate" domainObjectName="PermissOperate" />-->
+        <!--<table tableName="code_column_config" domainObjectName="ColumnInfo" />-->
+        <table tableName="code_gen_config" domainObjectName="GenConfig" />
+        <table tableName="code_column_config" domainObjectName="ColumnInfo" />
+
+    </context>
+</generatorConfiguration>

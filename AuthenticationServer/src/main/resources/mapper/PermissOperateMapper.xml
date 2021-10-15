@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.as.mapper.PermissOperateMapper">
+    <resultMap id="PermissOperateMap" type="com.qhzk.as.entity.PermissOperate">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="permissid" jdbcType="BIGINT" property="permissid"/>
+        <result column="operateid" jdbcType="BIGINT" property="operateid"/>
+        <result column="seq" jdbcType="VARCHAR" property="seq"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operatetime" jdbcType="TIMESTAMP" property="operatetime"/>
+    </resultMap>
+    <sql id="PermissOperateColumn">
+        id,permissid,operateid,seq,creator,createtime,operator,operatetime
+    </sql>
+</mapper>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.TaskCustomMapper">
+    <resultMap id="TaskDataMap" type="com.qhzk.pe.data.TaskData" extends="com.qhzk.pe.mapper.BaseDataMapper.BaseDataMappingColumn">
+        <result column="taskcode" jdbcType="VARCHAR" property="taskcode" />
+        <result column="taskname" jdbcType="VARCHAR" property="taskname" />
+        <result column="tasktype" jdbcType="VARCHAR" property="tasktype" />
+        <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+        <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+        <result column="releasetime" jdbcType="TIMESTAMP" property="releasetime" />
+        <result column="taskissuer" jdbcType="VARCHAR" property="taskissuer" />
+        <result column="scope" jdbcType="VARCHAR" property="scope" />
+        <result column="means" jdbcType="VARCHAR" property="means" />
+        <result column="location" jdbcType="VARCHAR" property="location" />
+        <result column="evaluationmodel" jdbcType="VARCHAR" property="evaluationmodel" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <collection property="experts" column="pkid" ofType="com.qhzk.pe.data.TaskExpertData"
+                    select="com.qhzk.pe.mapper.TaskExpertCustomMapper.selectByTaskid" />
+        <collection property="specimens" column="pkid" ofType="com.qhzk.pe.data.TaskSpecimenData"
+                    select="com.qhzk.pe.mapper.TaskSpecimenCustomMapper.selectByTaskid" />
+        <collection property="standards" column="pkid" ofType="com.qhzk.pe.data.TaskStandardData"
+                    select="com.qhzk.pe.mapper.TaskStandardCustomMapper.selectByTaskid" />
+    </resultMap>
+
+    <sql id="Task_Column_List">
+        s.pkid, s.taskcode, s.taskname, s.tasktype, s.starttime, s.endtime, s.releasetime, s.taskissuer,
+        s.scope, s.means, s.location, s.evaluationmodel, s.status,s.createtime,s.isdelete, s.description
+    </sql>
+
+    <select id="countTaskPageInfo"  parameterType="java.lang.String" resultType="java.lang.Long">
+        select
+        count(*)
+        from t_pe_task s
+        where  s.pkid is not null
+        <if test="value.taskcode != null">
+            and s.taskcode like CONCAT('%',#{value.taskcode,jdbcType=VARCHAR} ,'%')
+        </if>
+        <if test="value.taskname != null">
+            and s.taskname like  CONCAT('%',#{value.taskname,jdbcType=VARCHAR} ,'%')
+        </if>
+        <if test="value.tasktype != null">
+            and s.tasktype like CONCAT('%',#{value.tasktype,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.taskissuer != null">
+            and s.taskissuer like  CONCAT('%',#{value.taskissuer,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.scope != null">
+            and s.scope like  CONCAT('%',#{value.scope,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.means != null">
+            and s.means like  CONCAT('%',#{value.means,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.location != null">
+            and s.location like  CONCAT('%',#{value.location,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.evaluationmodel != null">
+            and s.evaluationmodel like  CONCAT('%',#{value.evaluationmodel,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.status != null">
+            and s.status like  CONCAT('%',#{value.status,jdbcType=VARCHAR},'%')
+        </if>
+        and s.isdelete ="N"
+    </select>
+    <select id="queryTaskPageInfo"  parameterType="java.lang.String" resultMap="TaskDataMap">
+        select
+        <include refid="Task_Column_List" />
+        from t_pe_task s
+        where  s.pkid is not null
+        <if test="value.taskcode != null">
+            and s.taskcode like CONCAT('%',#{value.taskcode,jdbcType=VARCHAR} ,'%')
+        </if>
+        <if test="value.taskname != null">
+            and s.taskname like  CONCAT('%',#{value.taskname,jdbcType=VARCHAR} ,'%')
+        </if>
+        <if test="value.tasktype != null">
+            and s.tasktype like CONCAT('%',#{value.tasktype,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.taskissuer != null">
+            and s.taskissuer like  CONCAT('%',#{value.taskissuer,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.scope != null">
+            and s.scope like  CONCAT('%',#{value.scope,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.means != null">
+            and s.means like  CONCAT('%',#{value.means,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.location != null">
+            and s.location like  CONCAT('%',#{value.location,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.evaluationmodel != null">
+            and s.evaluationmodel like  CONCAT('%',#{value.evaluationmodel,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="value.status != null">
+            and s.status like  CONCAT('%',#{value.status,jdbcType=VARCHAR},'%')
+        </if>
+        and s.isdelete ="N"
+        order by s.createtime desc
+        <if test="page != null">
+            <if test="page.start != null and page.pageSize != null">
+                limit  #{page.start},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="TaskDataMap">
+        select
+        <include refid="Task_Column_List" />
+        from t_pe_task s where   s.pkid  = #{pkid,jdbcType=BIGINT}  and s.isdelete ="N"
+    </select>
+    <update id="deleteTaskByPrimaryKey" parameterType="java.lang.Long">
+        UPDATE t_pe_task SET `isdelete` = 'Y' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="stopTask" parameterType="java.lang.Long">
+        UPDATE t_pe_task SET `status` = '3' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.qhzk.pe.data.TaskData">
+        UPDATE t_pe_task
+        <set>
+            <if test="taskcode != null">
+                taskcode =#{ taskcode ,jdbcType=VARCHAR},
+            </if>
+            <if test="taskname != null">
+                taskname =#{ taskname ,jdbcType=VARCHAR},
+            </if>
+            <if test="tasktype != null">
+                tasktype =#{ tasktype ,jdbcType=VARCHAR},
+            </if>
+            <if test="starttime != null">
+                starttime =#{ starttime ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                endtime =#{ endtime ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="releasetime != null">
+                releasetime =#{ releasetime ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="taskissuer != null">
+                taskissuer =#{ taskissuer ,jdbcType=VARCHAR},
+            </if>
+            <if test="scope != null">
+                scope =#{ scope ,jdbcType=VARCHAR},
+            </if>
+            <if test="means != null">
+                means =#{ means ,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                location =#{ location ,jdbcType=VARCHAR},
+            </if>
+            <if test="evaluationmodel != null">
+                evaluationmodel =#{ evaluationmodel ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status =#{ status ,jdbcType=VARCHAR},
+            </if>
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataModifyColumn"/>
+        </set>
+        WHERE pkid =  #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.qhzk.pe.data.TaskData" useGeneratedKeys="true" keyProperty="pkid">
+        INSERT INTO t_pe_task(
+        taskcode,
+        taskname,
+        tasktype,
+        starttime,
+        endtime,
+        releasetime,
+        taskissuer,
+        scope,
+        means,
+        location,
+        evaluationmodel,
+        status,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        (
+        #{ taskcode ,jdbcType=VARCHAR },
+        #{ taskname ,jdbcType=VARCHAR },
+        #{ tasktype ,jdbcType=VARCHAR },
+        #{ starttime ,jdbcType=TIMESTAMP },
+        #{ endtime ,jdbcType=TIMESTAMP },
+        #{ releasetime ,jdbcType=TIMESTAMP },
+        #{ taskissuer ,jdbcType=VARCHAR },
+        #{ scope ,jdbcType=VARCHAR },
+        #{ means ,jdbcType=VARCHAR },
+        #{ location ,jdbcType=VARCHAR },
+        #{ evaluationmodel ,jdbcType=VARCHAR },
+        #{ status ,jdbcType=VARCHAR },
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumnValue"/>
+        )
+    </insert>
+
+    <delete id="deleteRealByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pe_task where pkid =  #{pkid,jdbcType=BIGINT}
+    </delete>
+
+    <update id="batchLogicDeleteInfo" parameterType="java.lang.String">
+        UPDATE t_pe_task SET `isdelete` = 'Y' WHERE `pkid`
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{infoid,jdbcType=BIGINT}
+        </foreach>
+        )
+    </update>
+
+    <delete id="batchRealDeleteInfo" parameterType="java.lang.String">
+        delete from t_pe_task where pkid
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{ infoid,jdbcType=BIGINT }
+        </foreach>
+        )
+    </delete>
+</mapper>

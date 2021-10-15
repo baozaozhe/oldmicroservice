@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.TaskExpertTaskCustomMapper">
+    <resultMap id="TaskExpertTaskDataMap" type="com.qhzk.pe.data.TaskExpertTaskData"  extends="com.qhzk.pe.mapper.BaseDataMapper.BaseDataMappingColumn">
+        <result column="taskid" jdbcType="BIGINT" property="taskid" />
+        <result column="tasktype" jdbcType="VARCHAR" property="tasktype" />
+        <result column="specimenid" jdbcType="BIGINT" property="specimenid" />
+        <result column="specode" jdbcType="VARCHAR" property="specode" />
+        <result column="spename" jdbcType="VARCHAR" property="spename" />
+        <result column="specimen2id" jdbcType="BIGINT" property="specimen2id" />
+        <result column="spe2code" jdbcType="VARCHAR" property="spe2code" />
+        <result column="spe2name" jdbcType="INTEGER" property="spe2name" />
+        <result column="expertid" jdbcType="BIGINT" property="expertid" />
+        <result column="userid" jdbcType="BIGINT" property="userid" />
+        <result column="usertype" jdbcType="VARCHAR" property="usertype" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="fullname" jdbcType="VARCHAR" property="fullname" />
+        <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+        <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+        <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+        <result column="completiontime" jdbcType="TIMESTAMP" property="completiontime" />
+        <result column="means" jdbcType="VARCHAR" property="means" />
+        <result column="evaluationmodel" jdbcType="VARCHAR" property="evaluationmodel" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <collection property="results" column="pkid" ofType="com.qhzk.pe.data.TaskExpertTaskResultsData"
+                    select="com.qhzk.pe.mapper.TaskExpertTaskResultapper.selectByTetaskid" />
+    </resultMap>
+    <sql id="MyTableColumn">
+    taskid,tasktype,specimenid,specode,spename,specimen2id,spe2code,spe2name,expertid,userid,usertype,username,fullname,telephone,starttime,endtime,completiontime,means,evaluationmodel,status
+    </sql>
+    <select id="countTaskExpertTaskPageInfo" parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(*) from t_pe_task_expert_task where pkid is not null
+        <if test="value.taskid != null">
+            and taskid like CONCAT('%', #{ value.taskid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.tasktype != null">
+            and tasktype like CONCAT('%', #{ value.tasktype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.specimenid != null">
+            and specimenid like CONCAT('%', #{ value.specimenid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.specode != null">
+            and specode like CONCAT('%', #{ value.specode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.spename != null">
+            and spename like CONCAT('%', #{ value.spename ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.specimen2id != null">
+            and specimen2id like CONCAT('%', #{ value.specimen2id ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.spe2code != null">
+            and spe2code like CONCAT('%', #{ value.spe2code ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.spe2name != null">
+            and spe2name like CONCAT('%', #{ value.spe2name ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.expertid != null">
+            and expertid like CONCAT('%', #{ value.expertid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.userid != null">
+            and userid like CONCAT('%', #{ value.userid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.usertype != null">
+            and usertype like CONCAT('%', #{ value.usertype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.username != null">
+            and username like CONCAT('%', #{ value.username ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.fullname != null">
+            and fullname like CONCAT('%', #{ value.fullname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.telephone != null">
+            and telephone like CONCAT('%', #{ value.telephone ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.starttime != null">
+            and starttime like CONCAT('%', #{ value.starttime ,jdbcType=TIMESTAMP } ,'%')
+        </if>
+        <if test="value.endtime != null">
+            and endtime like CONCAT('%', #{ value.endtime ,jdbcType=TIMESTAMP } ,'%')
+        </if>
+        <if test="value.completiontime != null">
+            and completiontime like CONCAT('%', #{ value.completiontime ,jdbcType=TIMESTAMP } ,'%')
+        </if>
+        <if test="value.means != null">
+            and means like CONCAT('%', #{ value.means ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.evaluationmodel != null">
+            and evaluationmodel like CONCAT('%', #{ value.evaluationmodel ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.status != null">
+            and status like CONCAT('%', #{ value.status ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+    </select>
+    <select id="queryTaskExpertTaskPageInfo" parameterType="java.lang.String" resultMap="TaskExpertTaskDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_task_expert_task
+        where pkid is not null
+        <if test="value.taskid != null">
+            and taskid like CONCAT('%', #{ value.taskid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.tasktype != null">
+            and tasktype like CONCAT('%', #{ value.tasktype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.specimenid != null">
+            and specimenid like CONCAT('%', #{ value.specimenid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.specode != null">
+            and specode like CONCAT('%', #{ value.specode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.spename != null">
+            and spename like CONCAT('%', #{ value.spename ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.specimen2id != null">
+            and specimen2id like CONCAT('%', #{ value.specimen2id ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.spe2code != null">
+            and spe2code like CONCAT('%', #{ value.spe2code ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.spe2name != null">
+            and spe2name like CONCAT('%', #{ value.spe2name ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.expertid != null">
+            and expertid like CONCAT('%', #{ value.expertid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.userid != null">
+            and userid like CONCAT('%', #{ value.userid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.usertype != null">
+            and usertype like CONCAT('%', #{ value.usertype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.username != null">
+            and username like CONCAT('%', #{ value.username ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.fullname != null">
+            and fullname like CONCAT('%', #{ value.fullname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.telephone != null">
+            and telephone like CONCAT('%', #{ value.telephone ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.starttime != null">
+            and starttime like CONCAT('%', #{ value.starttime ,jdbcType=TIMESTAMP } ,'%')
+        </if>
+        <if test="value.endtime != null">
+            and endtime like CONCAT('%', #{ value.endtime ,jdbcType=TIMESTAMP } ,'%')
+        </if>
+        <if test="value.completiontime != null">
+            and completiontime like CONCAT('%', #{ value.completiontime ,jdbcType=TIMESTAMP } ,'%')
+        </if>
+        <if test="value.means != null">
+            and means like CONCAT('%', #{ value.means ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.evaluationmodel != null">
+            and evaluationmodel like CONCAT('%', #{ value.evaluationmodel ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.status != null">
+            and status like CONCAT('%', #{ value.status ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+        order by createtime desc
+        <if test="page != null">
+            <if test="page.start != null and page.pageSize != null">
+                limit #{page.start},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="TaskExpertTaskDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_task_expert_task where pkid =  #{pkid,jdbcType=BIGINT} and isdelete ="N"
+    </select>
+
+    <update id="deleteLogicByPrimaryKey" parameterType="java.lang.Long">
+        UPDATE t_pe_task_expert_task SET `isdelete` = 'Y' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="batchUpdateValues" parameterType="java.util.List">
+        <foreach collection="values" item="value" index="index" separator=";">
+            UPDATE t_pe_task_expert_task
+            <set>
+                <if test="val.taskid != null">
+                    taskid =#{ value.taskid ,jdbcType=BIGINT},
+                </if>
+                <if test="val.tasktype != null">
+                    tasktype =#{ value.tasktype ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.specimenid != null">
+                    specimenid =#{ value.specimenid ,jdbcType=BIGINT},
+                </if>
+                <if test="val.specode != null">
+                    specode =#{ value.specode ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.spename != null">
+                    spename =#{ value.spename ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.specimen2id != null">
+                    specimen2id =#{ value.specimen2id ,jdbcType=BIGINT},
+                </if>
+                <if test="val.spe2code != null">
+                    spe2code =#{ value.spe2code ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.spe2name != null">
+                    spe2name =#{ value.spe2name ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.expertid != null">
+                    expertid =#{ value.expertid ,jdbcType=BIGINT},
+                </if>
+                <if test="val.userid != null">
+                    userid =#{ value.userid ,jdbcType=BIGINT},
+                </if>
+                <if test="val.usertype != null">
+                    usertype =#{ value.usertype ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.username != null">
+                    username =#{ value.username ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.fullname != null">
+                    fullname =#{ value.fullname ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.telephone != null">
+                    telephone =#{ value.telephone ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.starttime != null">
+                    starttime =#{ value.starttime ,jdbcType=TIMESTAMP},
+                </if>
+                <if test="val.endtime != null">
+                    endtime =#{ value.endtime ,jdbcType=TIMESTAMP},
+                </if>
+                <if test="val.completiontime != null">
+                    completiontime =#{ value.completiontime ,jdbcType=TIMESTAMP},
+                </if>
+                <if test="val.means != null">
+                    means =#{ value.means ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.evaluationmodel != null">
+                    evaluationmodel =#{ value.evaluationmodel ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.status != null">
+                    status =#{ value.status ,jdbcType=VARCHAR},
+                </if>
+                <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchModifyColumn"/>
+            </set>
+            WHERE pkid = #{value.pkid,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsertValues" parameterType="java.util.List">
+        INSERT INTO t_pe_task_expert_task(
+        taskid,
+        tasktype,
+        specimenid,
+        specode,
+        spename,
+        specimen2id,
+        spe2code,
+        spe2name,
+        expertid,
+        userid,
+        usertype,
+        username,
+        fullname,
+        telephone,
+        starttime,
+        endtime,
+        completiontime,
+        means,
+        evaluationmodel,
+        status,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        <foreach collection="values" item="value" index="index" separator=",">
+            (
+            #{ value.taskid ,jdbcType=BIGINT },
+            #{ value.tasktype ,jdbcType=VARCHAR },
+            #{ value.specimenid ,jdbcType=BIGINT },
+            #{ value.specode ,jdbcType=VARCHAR },
+            #{ value.spename ,jdbcType=VARCHAR },
+            #{ value.specimen2id ,jdbcType=BIGINT },
+            #{ value.spe2code ,jdbcType=VARCHAR },
+            #{ value.spe2name ,jdbcType=VARCHAR },
+            #{ value.expertid ,jdbcType=BIGINT },
+            #{ value.userid ,jdbcType=BIGINT },
+            #{ value.usertype ,jdbcType=VARCHAR },
+            #{ value.username ,jdbcType=VARCHAR },
+            #{ value.fullname ,jdbcType=VARCHAR },
+            #{ value.telephone ,jdbcType=VARCHAR },
+            #{ value.starttime ,jdbcType=TIMESTAMP },
+            #{ value.endtime ,jdbcType=TIMESTAMP },
+            #{ value.completiontime ,jdbcType=TIMESTAMP },
+            #{ value.means ,jdbcType=VARCHAR },
+            #{ value.evaluationmodel ,jdbcType=VARCHAR },
+            #{ value.status ,jdbcType=VARCHAR },
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchInsertColumnValue"/>
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.qhzk.pe.data.TaskExpertTaskData">
+        UPDATE t_pe_task_expert_task
+        <set>
+            <if test="taskid != null">
+                taskid =#{ taskid ,jdbcType=BIGINT},
+            </if>
+            <if test="tasktype != null">
+                tasktype =#{ tasktype ,jdbcType=VARCHAR},
+            </if>
+            <if test="specimenid != null">
+                specimenid =#{ specimenid ,jdbcType=BIGINT},
+            </if>
+            <if test="specode != null">
+                specode =#{ specode ,jdbcType=VARCHAR},
+            </if>
+            <if test="spename != null">
+                spename =#{ spename ,jdbcType=VARCHAR},
+            </if>
+            <if test="specimen2id != null">
+                specimen2id =#{ specimen2id ,jdbcType=BIGINT},
+            </if>
+            <if test="spe2code != null">
+                spe2code =#{ spe2code ,jdbcType=VARCHAR},
+            </if>
+            <if test="spe2name != null">
+                spe2name =#{ spe2name ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertid != null">
+                expertid =#{ expertid ,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                userid =#{ userid ,jdbcType=BIGINT},
+            </if>
+            <if test="usertype != null">
+                usertype =#{ usertype ,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username =#{ username ,jdbcType=VARCHAR},
+            </if>
+            <if test="fullname != null">
+                fullname =#{ fullname ,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone =#{ telephone ,jdbcType=VARCHAR},
+            </if>
+            <if test="starttime != null">
+                starttime =#{ starttime ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                endtime =#{ endtime ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="completiontime != null">
+                completiontime =#{ completiontime ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="means != null">
+                means =#{ means ,jdbcType=VARCHAR},
+            </if>
+            <if test="evaluationmodel != null">
+                evaluationmodel =#{ evaluationmodel ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status =#{ status ,jdbcType=VARCHAR},
+            </if>
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataModifyColumn"/>
+        </set>
+        WHERE pkid =  #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.qhzk.pe.data.TaskExpertTaskData" useGeneratedKeys="true" keyProperty="pkid">
+        INSERT INTO t_pe_task_expert_task(
+        taskid,
+        tasktype,
+        specimenid,
+        specode,
+        spename,
+        specimen2id,
+        spe2code,
+        spe2name,
+        expertid,
+        userid,
+        usertype,
+        username,
+        fullname,
+        telephone,
+        starttime,
+        endtime,
+        completiontime,
+        means,
+        evaluationmodel,
+        status,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        (
+        #{ taskid ,jdbcType=BIGINT },
+        #{ tasktype ,jdbcType=VARCHAR },
+        #{ specimenid ,jdbcType=BIGINT },
+        #{ specode ,jdbcType=VARCHAR },
+        #{ spename ,jdbcType=VARCHAR },
+        #{ specimen2id ,jdbcType=BIGINT },
+        #{ spe2code ,jdbcType=VARCHAR },
+        #{ spe2name ,jdbcType=VARCHAR },
+        #{ expertid ,jdbcType=BIGINT },
+        #{ userid ,jdbcType=BIGINT },
+        #{ usertype ,jdbcType=VARCHAR },
+        #{ username ,jdbcType=VARCHAR },
+        #{ fullname ,jdbcType=VARCHAR },
+        #{ telephone ,jdbcType=VARCHAR },
+        #{ starttime ,jdbcType=TIMESTAMP },
+        #{ endtime ,jdbcType=TIMESTAMP },
+        #{ completiontime ,jdbcType=TIMESTAMP },
+        #{ means ,jdbcType=VARCHAR },
+        #{ evaluationmodel ,jdbcType=VARCHAR },
+        #{ status ,jdbcType=VARCHAR },
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumnValue"/>
+        )
+    </insert>
+
+    <delete id="deleteRealByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pe_task_expert_task where pkid =  #{pkid,jdbcType=BIGINT}
+    </delete>
+
+    <update id="batchLogicDeleteInfo" parameterType="java.lang.String">
+        UPDATE t_pe_task_expert_task SET `isdelete` = 'Y' WHERE `pkid`
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{infoid,jdbcType=BIGINT}
+        </foreach>
+        )
+    </update>
+
+    <delete id="batchRealDeleteInfo" parameterType="java.lang.String">
+        delete from t_pe_task_expert_task where pkid
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{ infoid,jdbcType=BIGINT }
+        </foreach>
+        )
+    </delete>
+</mapper>

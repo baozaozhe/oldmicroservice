@@ -1,0 +1,13 @@
+server:
+  port: 2001
+spring:
+  application:
+    name: gatewayserver
+  #############################新增网关配置###########################
+  cloud:
+    instance:
+      hostname: gateway-service
+    config:
+      uri: http://127.0.0.1:5001
+      profile: dev
+      label: master

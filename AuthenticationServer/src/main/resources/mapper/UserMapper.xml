@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.as.mapper.UserMapper">
+    <resultMap id="UserDataMap" type="com.qhzk.as.entity.User">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="accountnum" jdbcType="VARCHAR" property="accountnum"/>
+        <result column="avite" jdbcType="VARCHAR" property="avite"/>
+        <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="mail" jdbcType="VARCHAR" property="mail"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="seq" jdbcType="VARCHAR" property="seq"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operatetime" jdbcType="TIMESTAMP" property="operatetime"/>
+    </resultMap>
+    <sql id="UserColumn">
+      id,username,accountnum,avite,telephone,token,mail,status,seq,creator,createtime,operator,operatetime
+    </sql>
+    <select id="queryUsersByDId"  resultMap="UserDataMap">
+        SELECT
+        u.id,u.username,u.accountnum,u.avite,u.telephone,u.mail,u.status,u.seq,u.creator,u.createtime,u.operator,u.operatetime
+        FROM  t_as_dept_user d
+        left  join t_as_user u on u.id =  d.userid
+        WHERE d.deptid =#{ deptid, jdbcType=BIGINT }
+        ORDER BY u.seq ,u.createtime
+    </select>
+    <select id="queryUsersByUId"  resultMap="UserDataMap">
+        SELECT
+        u.id,u.username,u.accountnum,u.avite,u.telephone,u.mail,u.status,u.seq,u.creator,u.createtime,u.operator,u.operatetime
+        FROM  t_as_user_ugroup g
+        left  join t_as_user u on u.id =  g.userid
+		where  g.ugroupid =#{ ugroupid, jdbcType=BIGINT }
+        ORDER BY u.seq ,u.createtime
+    </select>
+</mapper>

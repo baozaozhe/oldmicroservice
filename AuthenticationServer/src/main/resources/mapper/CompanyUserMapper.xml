@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.as.mapper.CompanyUserMapper">
+    <resultMap id="CompanyUserMap" type="com.qhzk.as.entity.CompanyUser">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="userid" jdbcType="BIGINT" property="userid"/>
+        <result column="companyid" jdbcType="BIGINT" property="companyid"/>
+        <result column="seq" jdbcType="VARCHAR" property="seq"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operatetime" jdbcType="TIMESTAMP" property="operatetime"/>
+    </resultMap>
+    <sql id="CompanyUserColumn">
+        id,userid,companyid,seq,creator,createtime,operator,operatetime
+    </sql>
+    <select id="queryCompanyUsersById" parameterType="java.lang.Long"  resultMap="com.qhzk.as.mapper.UserMapper.UserDataMap">
+        SELECT
+            u.id,
+            u.username,
+            u.accountnum,
+            u.avite,
+            u.telephone,
+            u.mail,
+            u.STATUS,
+            u.seq
+        FROM
+            t_as_company_user cu
+        LEFT JOIN t_as_user u ON u.id = cu.userid
+        where cu.companyid  =  #{id,jdbcType=BIGINT}
+        ORDER BY 	u.seq
+    </select>
+    <select id="queryCompanyUsersByIds" resultType="com.qhzk.as.entity.User">
+
+    </select>
+</mapper>

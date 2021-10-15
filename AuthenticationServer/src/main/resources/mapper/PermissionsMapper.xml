@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.as.mapper.PermissionsMapper">
+    <resultMap id="PermissionsMap" type="com.qhzk.as.entity.Permissions">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="seq" jdbcType="VARCHAR" property="seq"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operatetime" jdbcType="TIMESTAMP" property="operatetime"/>
+    </resultMap>
+    <resultMap id="PermissMap" type="com.qhzk.as.entity.Permissions">
+        <id column="pid" jdbcType="BIGINT" property="id"/>
+        <result column="pcode" jdbcType="VARCHAR" property="code"/>
+        <result column="pname" jdbcType="VARCHAR" property="name"/>
+        <result column="ptype" jdbcType="VARCHAR" property="type"/>
+        <result column="pstatus" jdbcType="VARCHAR" property="status"/>
+        <collection property="operates" ofType="com.qhzk.as.entity.Operate">
+            <id column="oid" jdbcType="BIGINT" property="id"/>
+            <result column="oname" jdbcType="VARCHAR" property="name"/>
+            <result column="oopercode" jdbcType="VARCHAR" property="opercode"/>
+            <result column="ointercepturl" jdbcType="VARCHAR" property="intercepturl"/>
+            <result column="oparentid" jdbcType="BIGINT" property="parentid"/>
+            <result column="oseq" jdbcType="VARCHAR" property="seq"/>
+        </collection>
+        <collection property="pelements" ofType="com.qhzk.as.entity.Pelement">
+            <id column="eid" jdbcType="BIGINT" property="id"/>
+            <result column="elcode" jdbcType="VARCHAR" property="elcode"/>
+            <result column="eseq" jdbcType="VARCHAR" property="seq"/>
+        </collection>
+        <collection property="files" ofType="com.qhzk.as.entity.FileInfo">
+            <id column="fid" jdbcType="BIGINT" property="id"/>
+            <result column="filename" jdbcType="VARCHAR" property="filename"/>
+            <result column="fileurl" jdbcType="VARCHAR" property="fileurl"/>
+            <result column="fseq" jdbcType="VARCHAR" property="seq"/>
+        </collection>
+        <collection property="menus" ofType="com.qhzk.as.entity.Menu">
+            <id column="mid" jdbcType="BIGINT" property="id"/>
+            <result column="menuname" jdbcType="VARCHAR" property="menuname"/>
+            <result column="murl" jdbcType="VARCHAR" property="url"/>
+            <result column="mparentid" jdbcType="BIGINT" property="parentid"/>
+            <result column="mseq" jdbcType="VARCHAR" property="seq"/>
+        </collection>
+
+    </resultMap>
+    <sql id="PermissionsColumn">
+        id,code,name,type,status,seq,creator,createtime,operator,operatetime
+    </sql>
+    <select id="getRolesPermissByRid"  parameterType="java.lang.Long"  resultMap="PermissMap">
+         SELECT
+                p.id pid,p.code pcode,p.name pname,p.type ptype,p.status pstatus,
+				o.id oid,o.name oname,o.opercode oopercode,o.intercepturl ointercepturl,o.parentid oparentid,o.seq oseq,
+				m.id mid,m.menuname menuname,m.url murl,m.parentid mparentid,m.seq mseq,
+				e.id eid,e.elcode,e.seq eseq,
+				f.id fid,f.filename,f.fileurl,f.seq fseq
+         FROM  t_as_permissions p
+         LEFT JOIN t_as_permiss_file pf on  pf.permissid = p.id
+         LEFT JOIN t_as_file f on f.id = pf.fileid
+         LEFT JOIN t_as_permiss_pelement pp on pp.permissid =p.id
+         LEFT JOIN t_as_pelement e on e.id = pp.pelid
+         LEFT JOIN t_as_permissions_menu pm on pm.permissid =p.id
+         LEFT JOIN t_as_menu m on m.id = pm.menuid
+         LEFT JOIN t_as_permiss_operate po on po.permissid = p.id
+         LEFT JOIN t_as_operate o on o.id = po.operateid
+         WHERE  p.id = #{id ,jdbcType = BIGINT}
+    </select>
+
+</mapper>

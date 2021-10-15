@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.DictionaryCustomMapper">
+    <resultMap id="DictionaryDataMap" type="com.qhzk.pe.data.DictionaryData"
+               extends="com.qhzk.pe.mapper.BaseDataMapper.BaseDataMappingColumn">
+        <result column="dictype" jdbcType="VARCHAR" property="dictype"/>
+        <result column="diccode" jdbcType="VARCHAR" property="diccode"/>
+        <result column="dicname" jdbcType="VARCHAR" property="dicname"/>
+        <result column="parentcode" jdbcType="VARCHAR" property="parentcode"/>
+    </resultMap>
+    <sql id="MyTableColumn">
+    dictype,diccode,dicname,parentcode
+    </sql>
+    <select id="countDictionaryPageInfo" parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(*) from t_pe_dictionary where pkid is not null
+        <if test="value.dictype != null">
+            and dictype like CONCAT('%', #{ value.dictype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.diccode != null">
+            and diccode like CONCAT('%', #{ value.diccode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.dicname != null">
+            and dicname like CONCAT('%', #{ value.dicname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.parentcode != null">
+            and parentcode like CONCAT('%', #{ value.parentcode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+    </select>
+    <select id="queryDictionaryPageInfo" parameterType="java.lang.String" resultMap="DictionaryDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_dictionary
+        where pkid is not null
+        <if test="value.dictype != null">
+            and dictype like CONCAT('%', #{ value.dictype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.diccode != null">
+            and diccode like CONCAT('%', #{ value.diccode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.dicname != null">
+            and dicname like CONCAT('%', #{ value.dicname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.parentcode != null">
+            and parentcode like CONCAT('%', #{ value.parentcode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+        order by createtime desc
+        <if test="page != null">
+            <if test="page.start != null and page.pageSize != null">
+                limit #{page.start},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="DictionaryDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_dictionary where pkid =  #{pkid,jdbcType=BIGINT} and isdelete ="N"
+    </select>
+
+    <update id="deleteLogicByPrimaryKey" parameterType="java.lang.Long">
+        UPDATE t_pe_dictionary SET `isdelete` = 'Y' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="batchUpdateValues" parameterType="java.util.List">
+        <foreach collection="values" item="value" index="index" separator=";">
+            UPDATE t_pe_dictionary
+            <set>
+                <if test="val.dictype != null">
+                    dictype =#{ value.dictype ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.diccode != null">
+                    diccode =#{ value.diccode ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.dicname != null">
+                    dicname =#{ value.dicname ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.parentcode != null">
+                    parentcode =#{ value.parentcode ,jdbcType=VARCHAR},
+                </if>
+                <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchModifyColumn"/>
+            </set>
+            WHERE pkid = #{value.pkid,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsertValues" parameterType="java.util.List">
+        INSERT INTO t_pe_dictionary(
+        dictype,
+        diccode,
+        dicname,
+        parentcode,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        <foreach collection="values" item="value" index="index" separator=",">
+            (
+            #{ value.dictype ,jdbcType=VARCHAR },
+            #{ value.diccode ,jdbcType=VARCHAR },
+            #{ value.dicname ,jdbcType=VARCHAR },
+            #{ value.parentcode ,jdbcType=VARCHAR },
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchInsertColumnValue"/>
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.qhzk.pe.data.DictionaryData">
+        UPDATE t_pe_dictionary
+        <set>
+            <if test="dictype != null">
+                dictype =#{ dictype ,jdbcType=VARCHAR},
+            </if>
+            <if test="diccode != null">
+                diccode =#{ diccode ,jdbcType=VARCHAR},
+            </if>
+            <if test="dicname != null">
+                dicname =#{ dicname ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentcode != null">
+                parentcode =#{ parentcode ,jdbcType=VARCHAR},
+            </if>
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataModifyColumn"/>
+        </set>
+        WHERE pkid =  #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.qhzk.pe.data.DictionaryData" useGeneratedKeys="true" keyProperty="pkid">
+        INSERT INTO t_pe_dictionary(
+        dictype,
+        diccode,
+        dicname,
+        parentcode,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        (
+        #{ dictype ,jdbcType=VARCHAR },
+        #{ diccode ,jdbcType=VARCHAR },
+        #{ dicname ,jdbcType=VARCHAR },
+        #{ parentcode ,jdbcType=VARCHAR },
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumnValue"/>
+        )
+    </insert>
+
+    <delete id="deleteRealByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pe_dictionary where pkid =  #{pkid,jdbcType=BIGINT}
+    </delete>
+
+    <update id="batchLogicDeleteInfo" parameterType="java.lang.String">
+        UPDATE t_pe_dictionary SET `isdelete` = 'Y' WHERE `pkid`
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{infoid,jdbcType=BIGINT}
+        </foreach>
+        )
+    </update>
+
+    <delete id="batchRealDeleteInfo" parameterType="java.lang.String">
+        delete from t_pe_dictionary where pkid
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{ infoid,jdbcType=BIGINT }
+        </foreach>
+        )
+    </delete>
+
+
+    <select id="getEvaluatScopes" parameterType="java.lang.String" resultMap="DictionaryDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_dictionary
+        where isdelete ="N" and  parentCode in (
+        <foreach collection="pcodes" item="infoid" index="index" separator=",">
+            #{ infoid,jdbcType = VARCHAR }
+        </foreach>
+        )
+    </select>
+</mapper>

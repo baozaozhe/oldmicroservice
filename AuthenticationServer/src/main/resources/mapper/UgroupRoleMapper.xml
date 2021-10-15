@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.as.mapper.UgroupRoleMapper">
+    <resultMap id="UgroupRoleMap" type="com.qhzk.as.entity.UgroupRole">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="roleid" jdbcType="BIGINT" property="roleid"/>
+        <result column="ugroupid" jdbcType="BIGINT" property="ugroupid"/>
+        <result column="seq" jdbcType="VARCHAR" property="seq"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operatetime" jdbcType="TIMESTAMP" property="operatetime"/>
+    </resultMap>
+    <sql id="UgroupRoleColumn">
+        id,roleid,ugroupid,seq,creator,createtime,operator,operatetime
+    </sql>
+</mapper>

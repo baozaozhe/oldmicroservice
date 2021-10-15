@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.TaskExpertTaskResultsCustomMapper">
+    <resultMap id="TaskExpertTaskResultsDataMap" type="com.qhzk.pe.data.TaskExpertTaskResultsData" extends="com.qhzk.pe.mapper.BaseDataMapper.BaseDataMappingColumn">
+        <result column="tetaskid" jdbcType="BIGINT" property="tetaskid"/>
+        <result column="standardid" jdbcType="BIGINT" property="standardid"/>
+        <result column="standardcode" jdbcType="VARCHAR" property="standardcode"/>
+        <result column="standardname" jdbcType="VARCHAR" property="standardname"/>
+        <result column="itemcode" jdbcType="VARCHAR" property="itemcode"/>
+        <result column="itemname" jdbcType="VARCHAR" property="itemname"/>
+        <result column="itemvalue" jdbcType="VARCHAR" property="itemvalue"/>
+        <result column="datatype" jdbcType="VARCHAR" property="datatype"/>
+        <result column="upperlimit" jdbcType="DECIMAL" property="upperlimit"/>
+        <result column="lowerlimit" jdbcType="DECIMAL" property="lowerlimit"/>
+        <result column="defaultvalues" jdbcType="VARCHAR" property="defaultvalues"/>
+        <result column="scoreinterval" jdbcType="DECIMAL" property="scoreinterval"/>
+        <result column="sequencing" jdbcType="INTEGER" property="sequencing"/>
+    </resultMap>
+    <sql id="MyTableColumn">
+    tetaskid,standardid,standardcode,standardname,itemcode,itemname,itemvalue,datatype,upperlimit,lowerlimit,defaultvalues,scoreinterval,sequencing
+    </sql>
+    <select id="countTaskExpertTaskResultsPageInfo" parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(*) from t_pe_task_expert_task_results where pkid is not null
+        <if test="value.tetaskid != null">
+            and tetaskid like CONCAT('%', #{ value.tetaskid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.standardid != null">
+            and standardid like CONCAT('%', #{ value.standardid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.standardcode != null">
+            and standardcode like CONCAT('%', #{ value.standardcode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.standardname != null">
+            and standardname like CONCAT('%', #{ value.standardname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.itemcode != null">
+            and itemcode like CONCAT('%', #{ value.itemcode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.itemname != null">
+            and itemname like CONCAT('%', #{ value.itemname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.itemvalue != null">
+            and itemvalue like CONCAT('%', #{ value.itemvalue ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.datatype != null">
+            and datatype like CONCAT('%', #{ value.datatype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.upperlimit != null">
+            and upperlimit like CONCAT('%', #{ value.upperlimit ,jdbcType=DECIMAL } ,'%')
+        </if>
+        <if test="value.lowerlimit != null">
+            and lowerlimit like CONCAT('%', #{ value.lowerlimit ,jdbcType=DECIMAL } ,'%')
+        </if>
+        <if test="value.defaultvalues != null">
+            and defaultvalues like CONCAT('%', #{ value.defaultvalues ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.scoreinterval != null">
+            and scoreinterval like CONCAT('%', #{ value.scoreinterval ,jdbcType=DECIMAL } ,'%')
+        </if>
+        <if test="value.sequencing != null">
+            and sequencing like CONCAT('%', #{ value.sequencing ,jdbcType=INTEGER } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+    </select>
+    <select id="queryTaskExpertTaskResultsPageInfo" parameterType="java.lang.String" resultMap="TaskExpertTaskResultsDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_task_expert_task_results
+        where pkid is not null
+        <if test="value.tetaskid != null">
+            and tetaskid like CONCAT('%', #{ value.tetaskid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.standardid != null">
+            and standardid like CONCAT('%', #{ value.standardid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.standardcode != null">
+            and standardcode like CONCAT('%', #{ value.standardcode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.standardname != null">
+            and standardname like CONCAT('%', #{ value.standardname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.itemcode != null">
+            and itemcode like CONCAT('%', #{ value.itemcode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.itemname != null">
+            and itemname like CONCAT('%', #{ value.itemname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.itemvalue != null">
+            and itemvalue like CONCAT('%', #{ value.itemvalue ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.datatype != null">
+            and datatype like CONCAT('%', #{ value.datatype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.upperlimit != null">
+            and upperlimit like CONCAT('%', #{ value.upperlimit ,jdbcType=DECIMAL } ,'%')
+        </if>
+        <if test="value.lowerlimit != null">
+            and lowerlimit like CONCAT('%', #{ value.lowerlimit ,jdbcType=DECIMAL } ,'%')
+        </if>
+        <if test="value.defaultvalues != null">
+            and defaultvalues like CONCAT('%', #{ value.defaultvalues ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.scoreinterval != null">
+            and scoreinterval like CONCAT('%', #{ value.scoreinterval ,jdbcType=DECIMAL } ,'%')
+        </if>
+        <if test="value.sequencing != null">
+            and sequencing like CONCAT('%', #{ value.sequencing ,jdbcType=INTEGER } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+        order by createtime desc
+        <if test="page != null">
+            <if test="page.start != null and page.pageSize != null">
+                limit #{page.start},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="TaskExpertTaskResultsDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_task_expert_task_results where pkid =  #{pkid,jdbcType=BIGINT} and isdelete ="N"
+    </select>
+
+    <update id="deleteLogicByPrimaryKey" parameterType="java.lang.Long">
+        UPDATE t_pe_task_expert_task_results SET `isdelete` = 'Y' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="batchUpdateValues" parameterType="java.util.List">
+        <foreach collection="values" item="value" index="index" separator=";">
+            UPDATE t_pe_task_expert_task_results
+            <set>
+                <if test="val.tetaskid != null">
+                    tetaskid =#{ value.tetaskid ,jdbcType=BIGINT},
+                </if>
+                <if test="val.standardid != null">
+                    standardid =#{ value.standardid ,jdbcType=BIGINT},
+                </if>
+                <if test="val.standardcode != null">
+                    standardcode =#{ value.standardcode ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.standardname != null">
+                    standardname =#{ value.standardname ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.itemcode != null">
+                    itemcode =#{ value.itemcode ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.itemname != null">
+                    itemname =#{ value.itemname ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.itemvalue != null">
+                    itemvalue =#{ value.itemvalue ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.datatype != null">
+                    datatype =#{ value.datatype ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.upperlimit != null">
+                    upperlimit =#{ value.upperlimit ,jdbcType=DECIMAL},
+                </if>
+                <if test="val.lowerlimit != null">
+                    lowerlimit =#{ value.lowerlimit ,jdbcType=DECIMAL},
+                </if>
+                <if test="val.defaultvalues != null">
+                    defaultvalues =#{ value.defaultvalues ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.scoreinterval != null">
+                    scoreinterval =#{ value.scoreinterval ,jdbcType=DECIMAL},
+                </if>
+                <if test="val.sequencing != null">
+                    sequencing =#{ value.sequencing ,jdbcType=INTEGER},
+                </if>
+                <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchModifyColumn"/>
+            </set>
+            WHERE pkid = #{value.pkid,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsertValues" parameterType="java.util.List">
+        INSERT INTO t_pe_task_expert_task_results(
+        tetaskid,
+        standardid,
+        standardcode,
+        standardname,
+        itemcode,
+        itemname,
+        itemvalue,
+        datatype,
+        upperlimit,
+        lowerlimit,
+        defaultvalues,
+        scoreinterval,
+        sequencing,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        <foreach collection="values" item="value" index="index" separator=",">
+            (
+            #{ value.tetaskid ,jdbcType=BIGINT },
+            #{ value.standardid ,jdbcType=BIGINT },
+            #{ value.standardcode ,jdbcType=VARCHAR },
+            #{ value.standardname ,jdbcType=VARCHAR },
+            #{ value.itemcode ,jdbcType=VARCHAR },
+            #{ value.itemname ,jdbcType=VARCHAR },
+            #{ value.itemvalue ,jdbcType=VARCHAR },
+            #{ value.datatype ,jdbcType=VARCHAR },
+            #{ value.upperlimit ,jdbcType=DECIMAL },
+            #{ value.lowerlimit ,jdbcType=DECIMAL },
+            #{ value.defaultvalues ,jdbcType=VARCHAR },
+            #{ value.scoreinterval ,jdbcType=DECIMAL },
+            #{ value.sequencing ,jdbcType=INTEGER },
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchInsertColumnValue"/>
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.qhzk.pe.data.TaskExpertTaskResultsData">
+        UPDATE t_pe_task_expert_task_results
+        <set>
+            <if test="tetaskid != null">
+                tetaskid =#{ tetaskid ,jdbcType=BIGINT},
+            </if>
+            <if test="standardid != null">
+                standardid =#{ standardid ,jdbcType=BIGINT},
+            </if>
+            <if test="standardcode != null">
+                standardcode =#{ standardcode ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardname != null">
+                standardname =#{ standardname ,jdbcType=VARCHAR},
+            </if>
+            <if test="itemcode != null">
+                itemcode =#{ itemcode ,jdbcType=VARCHAR},
+            </if>
+            <if test="itemname != null">
+                itemname =#{ itemname ,jdbcType=VARCHAR},
+            </if>
+            <if test="itemvalue != null">
+                itemvalue =#{ itemvalue ,jdbcType=VARCHAR},
+            </if>
+            <if test="datatype != null">
+                datatype =#{ datatype ,jdbcType=VARCHAR},
+            </if>
+            <if test="upperlimit != null">
+                upperlimit =#{ upperlimit ,jdbcType=DECIMAL},
+            </if>
+            <if test="lowerlimit != null">
+                lowerlimit =#{ lowerlimit ,jdbcType=DECIMAL},
+            </if>
+            <if test="defaultvalues != null">
+                defaultvalues =#{ defaultvalues ,jdbcType=VARCHAR},
+            </if>
+            <if test="scoreinterval != null">
+                scoreinterval =#{ scoreinterval ,jdbcType=DECIMAL},
+            </if>
+            <if test="sequencing != null">
+                sequencing =#{ sequencing ,jdbcType=INTEGER},
+            </if>
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataModifyColumn"/>
+        </set>
+        WHERE pkid =  #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.qhzk.pe.data.TaskExpertTaskResultsData" useGeneratedKeys="true" keyProperty="pkid">
+        INSERT INTO t_pe_task_expert_task_results(
+        tetaskid,
+        standardid,
+        standardcode,
+        standardname,
+        itemcode,
+        itemname,
+        itemvalue,
+        datatype,
+        upperlimit,
+        lowerlimit,
+        defaultvalues,
+        scoreinterval,
+        sequencing,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        (
+        #{ tetaskid ,jdbcType=BIGINT },
+        #{ standardid ,jdbcType=BIGINT },
+        #{ standardcode ,jdbcType=VARCHAR },
+        #{ standardname ,jdbcType=VARCHAR },
+        #{ itemcode ,jdbcType=VARCHAR },
+        #{ itemname ,jdbcType=VARCHAR },
+        #{ itemvalue ,jdbcType=VARCHAR },
+        #{ datatype ,jdbcType=VARCHAR },
+        #{ upperlimit ,jdbcType=DECIMAL },
+        #{ lowerlimit ,jdbcType=DECIMAL },
+        #{ defaultvalues ,jdbcType=VARCHAR },
+        #{ scoreinterval ,jdbcType=DECIMAL },
+        #{ sequencing ,jdbcType=INTEGER },
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumnValue"/>
+        )
+    </insert>
+
+    <delete id="deleteRealByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pe_task_expert_task_results where pkid =  #{pkid,jdbcType=BIGINT}
+    </delete>
+
+    <update id="batchLogicDeleteInfo" parameterType="java.lang.String">
+        UPDATE t_pe_task_expert_task_results SET `isdelete` = 'Y' WHERE `pkid`
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{infoid,jdbcType=BIGINT}
+        </foreach>
+        )
+    </update>
+
+    <delete id="batchRealDeleteInfo" parameterType="java.lang.String">
+        delete from t_pe_task_expert_task_results where pkid
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{ infoid,jdbcType=BIGINT }
+        </foreach>
+        )
+    </delete>
+    <select id="selectByTetaskid" parameterType="java.lang.Long" resultMap="TaskExpertTaskResultsDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_task_expert_task_results where  tetaskid  =  #{pkid,jdbcType=BIGINT}  and isdelete ="N"
+    </select>
+</mapper>

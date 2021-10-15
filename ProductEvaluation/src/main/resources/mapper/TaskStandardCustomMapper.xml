@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.TaskStandardCustomMapper">
+    <resultMap id="TaskStandardDataMap" type="com.qhzk.pe.data.TaskStandardData"
+               extends="com.qhzk.pe.mapper.BaseDataMapper.BaseDataMappingColumn">
+        <result column="taskid" jdbcType="BIGINT" property="taskid" />
+        <result column="standardid" jdbcType="BIGINT" property="standardid" />
+        <result column="standardname" jdbcType="VARCHAR" property="standardname" />
+        <result column="standardversion" jdbcType="DECIMAL" property="standardversion" />
+    </resultMap>
+
+    <select id="countTaskStandardPageInfo"  parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(*) from t_pe_task_standard where  pkid is not null
+		<if test="value.pkid != null">
+            and pkid like  CONCAT('%', #{ value.pkid ,jdbcType=BIGINT } ,'%')
+        </if>
+		<if test="value.taskid != null">
+            and taskid like  CONCAT('%', #{ value.taskid ,jdbcType=BIGINT } ,'%')
+        </if>
+		<if test="value.standardid != null">
+            and standardid like  CONCAT('%', #{ value.standardid ,jdbcType=BIGINT } ,'%')
+        </if>
+		<if test="value.standardname != null">
+            and standardname like  CONCAT('%', #{ value.standardname ,jdbcType=VARCHAR } ,'%')
+        </if>
+		<if test="value.standardversion != null">
+            and standardversion like  CONCAT('%', #{ value.standardversion ,jdbcType=DECIMAL } ,'%')
+        </if>
+		<if test="value.createtime != null">
+            and createtime like  CONCAT('%', #{ value.createtime ,jdbcType=TIMESTAMP } ,'%')
+        </if>
+		<if test="value.isdelete != null">
+            and isdelete like  CONCAT('%', #{ value.isdelete ,jdbcType=VARCHAR } ,'%')
+        </if>
+		<if test="value.description != null">
+            and description like  CONCAT('%', #{ value.description ,jdbcType=VARCHAR } ,'%')
+        </if>
+        and isdelete ="N"
+    </select>
+    <select id="queryTaskStandardPageInfo"  parameterType="java.lang.String" resultMap="TaskStandardDataMap">
+        select  pkid, taskid, standardid, standardname, standardversion, createtime,isdelete, description  from t_pe_task_standard
+        where  pkid is not null
+		<if test="value.pkid != null">
+            and pkid like  CONCAT('%', #{ value.pkid ,jdbcType=BIGINT } ,'%')
+        </if>
+		<if test="value.taskid != null">
+            and taskid like  CONCAT('%', #{ value.taskid ,jdbcType=BIGINT } ,'%')
+        </if>
+		<if test="value.standardid != null">
+            and standardid like  CONCAT('%', #{ value.standardid ,jdbcType=BIGINT } ,'%')
+        </if>
+		<if test="value.standardname != null">
+            and standardname like  CONCAT('%', #{ value.standardname ,jdbcType=VARCHAR } ,'%')
+        </if>
+		<if test="value.standardversion != null">
+            and standardversion like  CONCAT('%', #{ value.standardversion ,jdbcType=DECIMAL } ,'%')
+        </if>
+		<if test="value.createtime != null">
+            and createtime like  CONCAT('%', #{ value.createtime ,jdbcType=TIMESTAMP } ,'%')
+        </if>
+		<if test="value.isdelete != null">
+            and isdelete like  CONCAT('%', #{ value.isdelete ,jdbcType=VARCHAR } ,'%')
+        </if>
+		<if test="value.description != null">
+            and description like  CONCAT('%', #{ value.description ,jdbcType=VARCHAR } ,'%')
+        </if>
+        and isdelete ="N"
+        order by createtime desc
+        <if test="page != null">
+            <if test="page.start != null and page.pageSize != null">
+                limit #{page.start},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="TaskStandardDataMap">
+        select  pkid, taskid, standardid, standardname, standardversion, createtime,isdelete, description  from t_pe_task_standard where  pkid  =  #{pkid,jdbcType=BIGINT}  and isdelete ="N"
+    </select>
+    <select id="selectByTaskid" parameterType="java.lang.Long" resultMap="TaskStandardDataMap">
+        select  pkid, taskid, standardid, standardname, standardversion, createtime,isdelete, description  from t_pe_task_standard where  taskid  =  #{pkid,jdbcType=BIGINT}  and isdelete ="N"
+    </select>
+
+    <update id="deleteLogicTaskStandardByPrimaryKey" parameterType="java.lang.Long">
+        UPDATE t_pe_task_standard SET `isdelete` = 'Y' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="batchUpdateValues" parameterType="java.util.List">
+        <foreach collection="values" item="value" index="index" separator=";">
+            UPDATE t_pe_task_standard
+            <set>
+              <if test="value.taskid != null">
+                  taskid =#{ value.taskid ,jdbcType=BIGINT},
+              </if>
+              <if test="value.standardid != null">
+                  standardid =#{ value.standardid ,jdbcType=BIGINT},
+              </if>
+              <if test="value.standardname != null">
+                  standardname =#{ value.standardname ,jdbcType=VARCHAR},
+              </if>
+              <if test="value.standardversion != null">
+                  standardversion =#{ value.standardversion ,jdbcType=DECIMAL},
+              </if>
+                <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchModifyColumn"/>
+            </set>
+            WHERE pkid = #{value.pkid,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsertValues" parameterType="java.util.List">
+        INSERT INTO t_pe_task_standard(
+         taskid,
+         standardid,
+         standardname,
+         standardversion,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        <foreach collection="values" item="value" index="index" separator=",">
+            (
+           #{ value.taskid ,jdbcType=BIGINT },
+           #{ value.standardid ,jdbcType=BIGINT },
+           #{ value.standardname ,jdbcType=VARCHAR },
+           #{ value.standardversion ,jdbcType=DECIMAL },
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchInsertColumnValue"/>
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.qhzk.pe.data.TaskStandardData">
+        UPDATE t_pe_task_standard
+        <set>
+            <if test="taskid != null">
+                taskid =#{taskid ,jdbcType=BIGINT},
+            </if>
+            <if test="standardid != null">
+                standardid =#{standardid ,jdbcType=BIGINT},
+            </if>
+            <if test="standardname != null">
+                standardname =#{standardname ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardversion != null">
+                standardversion =#{standardversion ,jdbcType=DECIMAL},
+            </if>
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataModifyColumn"/>
+        </set>
+        WHERE pkid = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.qhzk.pe.data.TaskStandardData">
+        INSERT INTO t_pe_task_standard(
+        taskid,
+        standardid,
+        standardname,
+        standardversion,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+      (
+        #{taskid ,jdbcType=BIGINT },
+        #{standardid ,jdbcType=BIGINT },
+        #{standardname ,jdbcType=VARCHAR },
+        #{standardversion ,jdbcType=DECIMAL },
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumnValue"/>
+        )
+    </insert>
+
+    <delete id="deleteRealByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pe_task_standard where pkid = #{pkid,jdbcType=BIGINT}
+    </delete>
+
+</mapper>

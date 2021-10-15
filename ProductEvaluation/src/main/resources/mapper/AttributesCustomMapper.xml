@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.AttributesCustomMapper">
+    <resultMap id="AttributesDataMap" type="com.qhzk.pe.data.AttributesData"
+               extends="com.qhzk.pe.mapper.BaseDataMapper.BaseDataMappingColumn">
+        <result column="attrtype" jdbcType="VARCHAR" property="attrtype"/>
+        <result column="attrtypename" jdbcType="VARCHAR" property="attrtypename"/>
+        <result column="attrcode" jdbcType="VARCHAR" property="attrcode"/>
+        <result column="attrname" jdbcType="VARCHAR" property="attrname"/>
+        <result column="attrvalue" jdbcType="VARCHAR" property="attrvalue"/>
+        <result column="attrdesc" jdbcType="VARCHAR" property="attrdesc"/>
+        <result column="datatype" jdbcType="VARCHAR" property="datatype"/>
+        <result column="allowblank" jdbcType="INTEGER" property="allowblank"/>
+        <result column="sequencing" jdbcType="INTEGER" property="sequencing"/>
+        <result column="indicator" jdbcType="INTEGER" property="indicator"/>
+        <result column="labelalign" jdbcType="VARCHAR" property="labelalign"/>
+        <result column="labelwidth" jdbcType="INTEGER" property="labelwidth"/>
+        <result column="indicatorwidth" jdbcType="INTEGER" property="indicatorwidth"/>
+        <result column="indicatorheight" jdbcType="INTEGER" property="indicatorheight"/>
+        <result column="islist" jdbcType="INTEGER" property="islist"/>
+        <result column="independentline" jdbcType="INTEGER" property="independentline"/>
+    </resultMap>
+    <sql id="MyTableColumn">
+    attrtype,attrtypename,attrcode,attrname,attrvalue,attrdesc,datatype,allowblank,sequencing,indicator,labelalign,labelwidth,indicatorwidth,indicatorheight,islist,independentline
+    </sql>
+    <select id="countAttributesPageInfo" parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(*) from t_pe_attributes where pkid is not null
+        <if test="value.attrtype != null">
+            and attrtype like CONCAT('%', #{ value.attrtype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrtypename != null">
+            and attrtypename like CONCAT('%', #{ value.attrtypename ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrcode != null">
+            and attrcode like CONCAT('%', #{ value.attrcode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrname != null">
+            and attrname like CONCAT('%', #{ value.attrname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrvalue != null">
+            and attrvalue like CONCAT('%', #{ value.attrvalue ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrdesc != null">
+            and attrdesc like CONCAT('%', #{ value.attrdesc ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.datatype != null">
+            and datatype like CONCAT('%', #{ value.datatype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.allowblank != null">
+            and allowblank like CONCAT('%', #{ value.allowblank ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.sequencing != null">
+            and sequencing like CONCAT('%', #{ value.sequencing ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.indicator != null">
+            and indicator like CONCAT('%', #{ value.indicator ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.labelalign != null">
+            and labelalign like CONCAT('%', #{ value.labelalign ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.labelwidth != null">
+            and labelwidth like CONCAT('%', #{ value.labelwidth ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.indicatorwidth != null">
+            and indicatorwidth like CONCAT('%', #{ value.indicatorwidth ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.indicatorheight != null">
+            and indicatorheight like CONCAT('%', #{ value.indicatorheight ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.islist != null">
+            and islist like CONCAT('%', #{ value.islist ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.independentline != null">
+            and independentline like CONCAT('%', #{ value.independentline ,jdbcType=INTEGER } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+    </select>
+    <select id="queryAttributesPageInfo" parameterType="java.lang.String" resultMap="AttributesDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_attributes
+        where pkid is not null
+        <if test="value.attrtype != null">
+            and attrtype like CONCAT('%', #{ value.attrtype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrtypename != null">
+            and attrtypename like CONCAT('%', #{ value.attrtypename ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrcode != null">
+            and attrcode like CONCAT('%', #{ value.attrcode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrname != null">
+            and attrname like CONCAT('%', #{ value.attrname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrvalue != null">
+            and attrvalue like CONCAT('%', #{ value.attrvalue ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.attrdesc != null">
+            and attrdesc like CONCAT('%', #{ value.attrdesc ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.datatype != null">
+            and datatype like CONCAT('%', #{ value.datatype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.allowblank != null">
+            and allowblank like CONCAT('%', #{ value.allowblank ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.sequencing != null">
+            and sequencing like CONCAT('%', #{ value.sequencing ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.indicator != null">
+            and indicator like CONCAT('%', #{ value.indicator ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.labelalign != null">
+            and labelalign like CONCAT('%', #{ value.labelalign ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.labelwidth != null">
+            and labelwidth like CONCAT('%', #{ value.labelwidth ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.indicatorwidth != null">
+            and indicatorwidth like CONCAT('%', #{ value.indicatorwidth ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.indicatorheight != null">
+            and indicatorheight like CONCAT('%', #{ value.indicatorheight ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.islist != null">
+            and islist like CONCAT('%', #{ value.islist ,jdbcType=INTEGER } ,'%')
+        </if>
+        <if test="value.independentline != null">
+            and independentline like CONCAT('%', #{ value.independentline ,jdbcType=INTEGER } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+        order by createtime desc
+        <if test="page != null">
+            <if test="page.start != null and page.pageSize != null">
+                limit #{page.start},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="AttributesDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_attributes where pkid =  #{pkid,jdbcType=BIGINT} and isdelete ="N"
+    </select>
+
+    <update id="deleteLogicByPrimaryKey" parameterType="java.lang.Long">
+        UPDATE t_pe_attributes SET `isdelete` = 'Y' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="batchUpdateValues" parameterType="java.util.List">
+        <foreach collection="values" item="value" index="index" separator=";">
+            UPDATE t_pe_attributes
+            <set>
+                <if test="val.attrtype != null">
+                    attrtype =#{ value.attrtype ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.attrtypename != null">
+                    attrtypename =#{ value.attrtypename ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.attrcode != null">
+                    attrcode =#{ value.attrcode ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.attrname != null">
+                    attrname =#{ value.attrname ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.attrvalue != null">
+                    attrvalue =#{ value.attrvalue ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.attrdesc != null">
+                    attrdesc =#{ value.attrdesc ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.datatype != null">
+                    datatype =#{ value.datatype ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.allowblank != null">
+                    allowblank =#{ value.allowblank ,jdbcType=INTEGER},
+                </if>
+                <if test="val.sequencing != null">
+                    sequencing =#{ value.sequencing ,jdbcType=INTEGER},
+                </if>
+                <if test="val.indicator != null">
+                    indicator =#{ value.indicator ,jdbcType=INTEGER},
+                </if>
+                <if test="val.labelalign != null">
+                    labelalign =#{ value.labelalign ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.labelwidth != null">
+                    labelwidth =#{ value.labelwidth ,jdbcType=INTEGER},
+                </if>
+                <if test="val.indicatorwidth != null">
+                    indicatorwidth =#{ value.indicatorwidth ,jdbcType=INTEGER},
+                </if>
+                <if test="val.indicatorheight != null">
+                    indicatorheight =#{ value.indicatorheight ,jdbcType=INTEGER},
+                </if>
+                <if test="val.islist != null">
+                    islist =#{ value.islist ,jdbcType=INTEGER},
+                </if>
+                <if test="val.independentline != null">
+                    independentline =#{ value.independentline ,jdbcType=INTEGER},
+                </if>
+                <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchModifyColumn"/>
+            </set>
+            WHERE pkid = #{value.pkid,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsertValues" parameterType="java.util.List">
+        INSERT INTO t_pe_attributes(
+        attrtype,
+        attrtypename,
+        attrcode,
+        attrname,
+        attrvalue,
+        attrdesc,
+        datatype,
+        allowblank,
+        sequencing,
+        indicator,
+        labelalign,
+        labelwidth,
+        indicatorwidth,
+        indicatorheight,
+        islist,
+        independentline,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        <foreach collection="values" item="value" index="index" separator=",">
+            (
+            #{ value.attrtype ,jdbcType=VARCHAR },
+            #{ value.attrtypename ,jdbcType=VARCHAR },
+            #{ value.attrcode ,jdbcType=VARCHAR },
+            #{ value.attrname ,jdbcType=VARCHAR },
+            #{ value.attrvalue ,jdbcType=VARCHAR },
+            #{ value.attrdesc ,jdbcType=VARCHAR },
+            #{ value.datatype ,jdbcType=VARCHAR },
+            #{ value.allowblank ,jdbcType=INTEGER },
+            #{ value.sequencing ,jdbcType=INTEGER },
+            #{ value.indicator ,jdbcType=INTEGER },
+            #{ value.labelalign ,jdbcType=VARCHAR },
+            #{ value.labelwidth ,jdbcType=INTEGER },
+            #{ value.indicatorwidth ,jdbcType=INTEGER },
+            #{ value.indicatorheight ,jdbcType=INTEGER },
+            #{ value.islist ,jdbcType=INTEGER },
+            #{ value.independentline ,jdbcType=INTEGER },
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchInsertColumnValue"/>
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.qhzk.pe.data.AttributesData">
+        UPDATE t_pe_attributes
+        <set>
+            <if test="attrtype != null">
+                attrtype =#{ attrtype ,jdbcType=VARCHAR},
+            </if>
+            <if test="attrtypename != null">
+                attrtypename =#{ attrtypename ,jdbcType=VARCHAR},
+            </if>
+            <if test="attrcode != null">
+                attrcode =#{ attrcode ,jdbcType=VARCHAR},
+            </if>
+            <if test="attrname != null">
+                attrname =#{ attrname ,jdbcType=VARCHAR},
+            </if>
+            <if test="attrvalue != null">
+                attrvalue =#{ attrvalue ,jdbcType=VARCHAR},
+            </if>
+            <if test="attrdesc != null">
+                attrdesc =#{ attrdesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="datatype != null">
+                datatype =#{ datatype ,jdbcType=VARCHAR},
+            </if>
+            <if test="allowblank != null">
+                allowblank =#{ allowblank ,jdbcType=INTEGER},
+            </if>
+            <if test="sequencing != null">
+                sequencing =#{ sequencing ,jdbcType=INTEGER},
+            </if>
+            <if test="indicator != null">
+                indicator =#{ indicator ,jdbcType=INTEGER},
+            </if>
+            <if test="labelalign != null">
+                labelalign =#{ labelalign ,jdbcType=VARCHAR},
+            </if>
+            <if test="labelwidth != null">
+                labelwidth =#{ labelwidth ,jdbcType=INTEGER},
+            </if>
+            <if test="indicatorwidth != null">
+                indicatorwidth =#{ indicatorwidth ,jdbcType=INTEGER},
+            </if>
+            <if test="indicatorheight != null">
+                indicatorheight =#{ indicatorheight ,jdbcType=INTEGER},
+            </if>
+            <if test="islist != null">
+                islist =#{ islist ,jdbcType=INTEGER},
+            </if>
+            <if test="independentline != null">
+                independentline =#{ independentline ,jdbcType=INTEGER},
+            </if>
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataModifyColumn"/>
+        </set>
+        WHERE pkid =  #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.qhzk.pe.data.AttributesData" useGeneratedKeys="true" keyProperty="pkid">
+        INSERT INTO t_pe_attributes(
+        attrtype,
+        attrtypename,
+        attrcode,
+        attrname,
+        attrvalue,
+        attrdesc,
+        datatype,
+        allowblank,
+        sequencing,
+        indicator,
+        labelalign,
+        labelwidth,
+        indicatorwidth,
+        indicatorheight,
+        islist,
+        independentline,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        (
+        #{ attrtype ,jdbcType=VARCHAR },
+        #{ attrtypename ,jdbcType=VARCHAR },
+        #{ attrcode ,jdbcType=VARCHAR },
+        #{ attrname ,jdbcType=VARCHAR },
+        #{ attrvalue ,jdbcType=VARCHAR },
+        #{ attrdesc ,jdbcType=VARCHAR },
+        #{ datatype ,jdbcType=VARCHAR },
+        #{ allowblank ,jdbcType=INTEGER },
+        #{ sequencing ,jdbcType=INTEGER },
+        #{ indicator ,jdbcType=INTEGER },
+        #{ labelalign ,jdbcType=VARCHAR },
+        #{ labelwidth ,jdbcType=INTEGER },
+        #{ indicatorwidth ,jdbcType=INTEGER },
+        #{ indicatorheight ,jdbcType=INTEGER },
+        #{ islist ,jdbcType=INTEGER },
+        #{ independentline ,jdbcType=INTEGER },
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumnValue"/>
+        )
+    </insert>
+
+    <delete id="deleteRealByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pe_attributes where pkid =  #{pkid,jdbcType=BIGINT}
+    </delete>
+
+    <update id="batchLogicDeleteInfo" parameterType="java.lang.String">
+        UPDATE t_pe_attributes SET `isdelete` = 'Y' WHERE `pkid`
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{infoid,jdbcType=BIGINT}
+        </foreach>
+        )
+    </update>
+
+    <delete id="batchRealDeleteInfo" parameterType="java.lang.String">
+        delete from t_pe_attributes where pkid
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{ infoid,jdbcType=BIGINT }
+        </foreach>
+        )
+    </delete>
+</mapper>

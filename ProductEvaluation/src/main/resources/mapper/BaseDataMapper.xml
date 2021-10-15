@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.BaseDataMapper">
+    <!--继承之结果映射 -->
+    <resultMap id="BaseDataMappingColumn" type="com.qhzk.pe.common.BaseData">
+        <id column="pkid" jdbcType="BIGINT" property="pkid" />
+        <result column="owner" jdbcType="BIGINT" property="owner" />
+        <result column="ownergroup" jdbcType="BIGINT" property="ownergroup" />
+        <result column="ownertype" jdbcType="VARCHAR" property="ownertype" />
+        <result column="creator" jdbcType="BIGINT" property="creator" />
+        <result column="creatorgroup" jdbcType="BIGINT" property="creatorgroup" />
+        <result column="creatortype" jdbcType="VARCHAR" property="creatortype" />
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+        <result column="lastmodify" jdbcType="BIGINT" property="lastmodify" />
+        <result column="lastmodifygroup" jdbcType="BIGINT" property="lastmodifygroup" />
+        <result column="lastmodifytype" jdbcType="VARCHAR" property="lastmodifytype" />
+        <result column="lastmodifiedtime" jdbcType="TIMESTAMP" property="lastmodifiedtime" />
+        <result column="deleter" jdbcType="BIGINT" property="deleter" />
+        <result column="deletegroup" jdbcType="BIGINT" property="deletegroup" />
+        <result column="deletetype" jdbcType="VARCHAR" property="deletetype" />
+        <result column="deletetime" jdbcType="TIMESTAMP" property="deletetime" />
+        <result column="isdelete" jdbcType="VARCHAR" property="isdelete" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+    </resultMap>
+    <!--继承之查询字段 -->
+    <sql id="BaseDataQueryColumn">
+        pkid, owner, ownergroup, ownertype, creator, creatorgroup, creatortype,
+        createtime, lastmodify, lastmodifygroup, lastmodifytype, lastmodifiedtime, deleter,
+        deletegroup, deletetype, deletetime, isdelete, description
+    </sql>
+
+    <!--继承之查询条件 -->
+    <sql id="BaseDataQueryCondition">
+        <if test="value.owner != null">
+            and owner = #{value.owner,jdbcType=BIGINT}
+        </if>
+        <if test="value.ownergroup != null">
+            and ownergroup = #{value.ownergroup,jdbcType=BIGINT}
+        </if>
+        <if test="value.ownertype != null">
+            and ownertype = #{value.ownertype,jdbcType=VARCHAR}
+        </if>
+        <if test="value.creator != null">
+            and creator = #{value.creator,jdbcType=BIGINT}
+        </if>
+        <if test="value.creatorgroup != null">
+            and creatorgroup = #{value.creatorgroup,jdbcType=BIGINT}
+        </if>
+        <if test="value.creatortype != null">
+            and creatortype = #{value.creatortype,jdbcType=VARCHAR}
+        </if>
+        <if test="value.lastmodify != null">
+            and lastmodify = #{value.lastmodify,jdbcType=BIGINT}
+        </if>
+        <if test="value.lastmodifygroup != null">
+            and lastmodifygroup = #{value.lastmodifygroup,jdbcType=BIGINT}
+        </if>
+        <if test="value.deletetype != null">
+            and deletetype = #{value.deletetype,jdbcType=VARCHAR}
+        </if>
+        and isdelete = "N"
+        <if test="value.description != null">
+            and description  like  CONCAT('%',#{value.description,jdbcType=VARCHAR},'%')
+        </if>
+    </sql>
+    <!--继承之模糊查询条件 -->
+    <sql id="BaseDataMhQueryCondition">
+        and isdelete = "N"
+        <if test="value.description != null">
+            and description  like  CONCAT('%',#{value.description,jdbcType=VARCHAR},'%')
+        </if>
+    </sql>
+    <!--继承之修改字段 -->
+    <sql id="BaseDataBatchModifyColumn">
+        <if test="value.owner != null">
+            owner = #{value.owner,jdbcType=BIGINT},
+        </if>
+        <if test="value.ownergroup != null">
+            ownergroup = #{value.ownergroup,jdbcType=BIGINT},
+        </if>
+        <if test="value.ownertype != null">
+            ownertype = #{value.ownertype,jdbcType=VARCHAR},
+        </if>
+        <if test="value.creator != null">
+            creator = #{value.creator,jdbcType=BIGINT},
+        </if>
+        <if test="value.creatorgroup != null">
+            creatorgroup = #{value.creatorgroup,jdbcType=BIGINT},
+        </if>
+        <if test="value.creatortype != null">
+            creatortype = #{value.creatortype,jdbcType=VARCHAR},
+        </if>
+        <if test="value.createtime != null">
+            createtime = #{value.createtime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="value.lastmodify != null">
+            lastmodify = #{value.lastmodify,jdbcType=BIGINT},
+        </if>
+        <if test="value.lastmodifygroup != null">
+            lastmodifygroup = #{value.lastmodifygroup,jdbcType=BIGINT},
+        </if>
+        <if test="value.lastmodifytype != null">
+            lastmodifytype = #{value.lastmodifytype,jdbcType=VARCHAR},
+        </if>
+        <if test="value.lastmodifiedtime != null">
+            lastmodifiedtime =  NOW(),
+        </if>
+        <if test="value.deleter != null">
+            deleter = #{value.deleter,jdbcType=BIGINT},
+        </if>
+        <if test="value.deletegroup != null">
+            deletegroup = #{value.deletegroup,jdbcType=BIGINT},
+        </if>
+        <if test="value.deletetype != null">
+            deletetype = #{value.deletetype,jdbcType=VARCHAR},
+        </if>
+        <if test="value.deletetime != null">
+            deletetime = #{value.deletetime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="value.description != null">
+            description = #{value.description,jdbcType=VARCHAR},
+        </if>
+        isdelete = "N"
+    </sql>
+    <!--继承之修改字段 -->
+    <sql id="BaseDataModifyColumn">
+        <if test="owner != null">
+            owner = #{owner,jdbcType=BIGINT},
+        </if>
+        <if test="ownergroup != null">
+            ownergroup = #{ownergroup,jdbcType=BIGINT},
+        </if>
+        <if test="ownertype != null">
+            ownertype = #{ownertype,jdbcType=VARCHAR},
+        </if>
+        <if test="creator != null">
+            creator = #{creator,jdbcType=BIGINT},
+        </if>
+        <if test="creatorgroup != null">
+            creatorgroup = #{creatorgroup,jdbcType=BIGINT},
+        </if>
+        <if test="creatortype != null">
+            creatortype = #{creatortype,jdbcType=VARCHAR},
+        </if>
+        <if test="createtime != null">
+            createtime = #{createtime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="lastmodify != null">
+            lastmodify = #{lastmodify,jdbcType=BIGINT},
+        </if>
+        <if test="lastmodifygroup != null">
+            lastmodifygroup = #{lastmodifygroup,jdbcType=BIGINT},
+        </if>
+        <if test="lastmodifytype != null">
+            lastmodifytype = #{lastmodifytype,jdbcType=VARCHAR},
+        </if>
+        <if test="lastmodifiedtime != null">
+            lastmodifiedtime = NOW(),
+        </if>
+        <if test="deleter != null">
+            deleter = #{deleter,jdbcType=BIGINT},
+        </if>
+        <if test="deletegroup != null">
+            deletegroup = #{deletegroup,jdbcType=BIGINT},
+        </if>
+        <if test="deletetype != null">
+            deletetype = #{deletetype,jdbcType=VARCHAR},
+        </if>
+        <if test="deletetime != null">
+            deletetime = #{deletetime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="description != null">
+            description = #{description,jdbcType=VARCHAR},
+        </if>
+        isdelete = "N"
+    </sql>
+    <!--继承之插入字段 -->
+    <sql id="BaseDataInsertColumn">
+      pkid,owner,ownergroup, ownertype,
+      creator,creatorgroup, creatortype,
+      createtime,lastmodify, lastmodifygroup,
+      lastmodifytype,lastmodifiedtime, deleter,
+      deletegroup,deletetype, deletetime,
+      isdelete,description
+    </sql>
+    <!--继承之插入字段值 -->
+    <sql id="BaseDataBatchInsertColumnValue">
+      #{value.pkid,jdbcType=BIGINT}, #{value.owner,jdbcType=BIGINT}, #{value.ownergroup,jdbcType=BIGINT}, #{value.ownertype,jdbcType=VARCHAR},
+      #{value.creator,jdbcType=BIGINT}, #{value.creatorgroup,jdbcType=BIGINT}, #{value.creatortype,jdbcType=VARCHAR},
+       NOW(), #{value.lastmodify,jdbcType=BIGINT}, #{value.lastmodifygroup,jdbcType=BIGINT},
+      #{value.lastmodifytype,jdbcType=VARCHAR}, #{value.lastmodifiedtime,jdbcType=TIMESTAMP}, #{value.deleter,jdbcType=BIGINT},
+      #{value.deletegroup,jdbcType=BIGINT}, #{value.deletetype,jdbcType=VARCHAR}, #{value.deletetime,jdbcType=TIMESTAMP},
+      "N", #{value.description,jdbcType=VARCHAR}
+    </sql>
+    <!--继承之插入字段值 -->
+    <sql id="BaseDataInsertColumnValue">
+      #{pkid,jdbcType=BIGINT},#{owner,jdbcType=BIGINT}, #{ownergroup,jdbcType=BIGINT}, #{ownertype,jdbcType=VARCHAR},
+      #{creator,jdbcType=BIGINT}, #{creatorgroup,jdbcType=BIGINT}, #{creatortype,jdbcType=VARCHAR},
+       NOW(), #{lastmodify,jdbcType=BIGINT}, #{lastmodifygroup,jdbcType=BIGINT},
+      #{lastmodifytype,jdbcType=VARCHAR}, #{lastmodifiedtime,jdbcType=TIMESTAMP}, #{deleter,jdbcType=BIGINT},
+      #{deletegroup,jdbcType=BIGINT}, #{deletetype,jdbcType=VARCHAR}, #{deletetime,jdbcType=TIMESTAMP},
+      "N", #{description,jdbcType=VARCHAR}
+    </sql>
+</mapper>

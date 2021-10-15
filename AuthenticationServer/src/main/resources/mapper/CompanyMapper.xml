@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.as.mapper.CompanyMapper">
+    <resultMap id="CompanyMap" type="com.qhzk.as.entity.Company">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="companyname" jdbcType="VARCHAR" property="companyname"/>
+        <result column="legal" jdbcType="VARCHAR" property="legal"/>
+        <result column="capital" jdbcType="VARCHAR" property="capital"/>
+        <result column="ostatus" jdbcType="VARCHAR" property="ostatus"/>
+        <result column="estabdate" jdbcType="VARCHAR" property="estabdate"/>
+        <result column="orgcode" jdbcType="VARCHAR" property="orgcode"/>
+        <result column="taxpayerno" jdbcType="VARCHAR" property="taxpayerno"/>
+        <result column="creditcode" jdbcType="VARCHAR" property="creditcode"/>
+        <result column="companytype" jdbcType="VARCHAR" property="companytype"/>
+        <result column="industry" jdbcType="VARCHAR" property="industry"/>
+        <result column="region" jdbcType="VARCHAR" property="region"/>
+        <result column="enname" jdbcType="VARCHAR" property="enname"/>
+        <result column="businestype" jdbcType="VARCHAR" property="businestype"/>
+        <result column="staffsize" jdbcType="VARCHAR" property="staffsize"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="businesscope" jdbcType="VARCHAR" property="businesscope"/>
+        <result column="website" jdbcType="VARCHAR" property="website"/>
+        <result column="contactnum" jdbcType="VARCHAR" property="contactnum"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="seq" jdbcType="VARCHAR" property="seq"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operatetime" jdbcType="TIMESTAMP" property="operatetime"/>
+    </resultMap>
+    <sql id="CompanyColumn">
+        id,companyname,legal,capital,ostatus,estabdate,orgcode,taxpayerno,creditcode,companytype,industry,region,enname,businestype,staffsize,address,businesscope,website,contactnum,email,remark,seq,status,creator,createtime,operator,operatetime
+    </sql>
+</mapper>

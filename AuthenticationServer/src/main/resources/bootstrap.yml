@@ -1,0 +1,13 @@
+server:
+  port: 4002
+spring:
+  application:
+    name: authenticationserver
+  #############################新增网关配置###########################
+  cloud:
+    instance:
+      hostname: authenticationserver
+    config:
+      uri: http://127.0.0.1:5001
+      profile: dev
+      label: master

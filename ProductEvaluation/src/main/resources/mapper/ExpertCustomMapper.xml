@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.ExpertCustomMapper">
+    <resultMap id="ExpertDataMap" type="com.qhzk.pe.data.ExpertData"
+               extends="com.qhzk.pe.mapper.BaseDataMapper.BaseDataMappingColumn">
+        <result column="userid" jdbcType="BIGINT" property="userid"/>
+        <result column="usertype" jdbcType="VARCHAR" property="usertype"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="fullname" jdbcType="VARCHAR" property="fullname"/>
+        <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="expertgroup" jdbcType="VARCHAR" property="expertgroup"/>
+    </resultMap>
+    <sql id="MyTableColumn">
+    userid,usertype,username,fullname,telephone,expertgroup
+    </sql>
+    <select id="countExpertPageInfo" parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(*) from t_pe_expert where pkid is not null
+        <if test="value.userid != null">
+            and userid like CONCAT('%', #{ value.userid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.usertype != null">
+            and usertype like CONCAT('%', #{ value.usertype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.username != null">
+            and username like CONCAT('%', #{ value.username ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.fullname != null">
+            and fullname like CONCAT('%', #{ value.fullname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.telephone != null">
+            and telephone like CONCAT('%', #{ value.telephone ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.expertgroup != null">
+            and expertgroup like CONCAT('%', #{ value.expertgroup ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+    </select>
+    <select id="queryExpertPageInfo" parameterType="java.lang.String" resultMap="ExpertDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_expert
+        where pkid is not null
+        <if test="value.userid != null">
+            and userid like CONCAT('%', #{ value.userid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.usertype != null">
+            and usertype like CONCAT('%', #{ value.usertype ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.username != null">
+            and username like CONCAT('%', #{ value.username ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.fullname != null">
+            and fullname like CONCAT('%', #{ value.fullname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.telephone != null">
+            and telephone like CONCAT('%', #{ value.telephone ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.expertgroup != null">
+            and expertgroup like CONCAT('%', #{ value.expertgroup ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+        order by createtime desc
+        <if test="page != null">
+            <if test="page.start != null and page.pageSize != null">
+                limit #{page.start},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ExpertDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_expert where pkid =  #{pkid,jdbcType=BIGINT} and isdelete ="N"
+    </select>
+
+    <update id="deleteLogicByPrimaryKey" parameterType="java.lang.Long">
+        UPDATE t_pe_expert SET `isdelete` = 'Y' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="batchUpdateValues" parameterType="java.util.List">
+        <foreach collection="values" item="value" index="index" separator=";">
+            UPDATE t_pe_expert
+            <set>
+                <if test="val.userid != null">
+                    userid =#{ value.userid ,jdbcType=BIGINT},
+                </if>
+                <if test="val.usertype != null">
+                    usertype =#{ value.usertype ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.username != null">
+                    username =#{ value.username ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.fullname != null">
+                    fullname =#{ value.fullname ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.telephone != null">
+                    telephone =#{ value.telephone ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.expertgroup != null">
+                    expertgroup =#{ value.expertgroup ,jdbcType=VARCHAR},
+                </if>
+                <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchModifyColumn"/>
+            </set>
+            WHERE pkid = #{value.pkid,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsertValues" parameterType="java.util.List">
+        INSERT INTO t_pe_expert(
+        userid,
+        usertype,
+        username,
+        fullname,
+        telephone,
+        expertgroup,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        <foreach collection="values" item="value" index="index" separator=",">
+            (
+            #{ value.userid ,jdbcType=BIGINT },
+            #{ value.usertype ,jdbcType=VARCHAR },
+            #{ value.username ,jdbcType=VARCHAR },
+            #{ value.fullname ,jdbcType=VARCHAR },
+            #{ value.telephone ,jdbcType=VARCHAR },
+            #{ value.expertgroup ,jdbcType=VARCHAR },
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchInsertColumnValue"/>
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.qhzk.pe.data.ExpertData">
+        UPDATE t_pe_expert
+        <set>
+            <if test="userid != null">
+                userid =#{ userid ,jdbcType=BIGINT},
+            </if>
+            <if test="usertype != null">
+                usertype =#{ usertype ,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username =#{ username ,jdbcType=VARCHAR},
+            </if>
+            <if test="fullname != null">
+                fullname =#{ fullname ,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone =#{ telephone ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertgroup != null">
+                expertgroup =#{ expertgroup ,jdbcType=VARCHAR},
+            </if>
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataModifyColumn"/>
+        </set>
+        WHERE pkid =  #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.qhzk.pe.data.ExpertData" useGeneratedKeys="true" keyProperty="pkid">
+        INSERT INTO t_pe_expert(
+        userid,
+        usertype,
+        username,
+        fullname,
+        telephone,
+        expertgroup,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        (
+        #{ userid ,jdbcType=BIGINT },
+        #{ usertype ,jdbcType=VARCHAR },
+        #{ username ,jdbcType=VARCHAR },
+        #{ fullname ,jdbcType=VARCHAR },
+        #{ telephone ,jdbcType=VARCHAR },
+        #{ expertgroup ,jdbcType=VARCHAR },
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumnValue"/>
+        )
+    </insert>
+
+    <delete id="deleteRealByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pe_expert where pkid =  #{pkid,jdbcType=BIGINT}
+    </delete>
+
+    <update id="batchLogicDeleteInfo" parameterType="java.lang.String">
+        UPDATE t_pe_expert SET `isdelete` = 'Y' WHERE `pkid`
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{infoid,jdbcType=BIGINT}
+        </foreach>
+        )
+    </update>
+
+    <delete id="batchRealDeleteInfo" parameterType="java.lang.String">
+        delete from t_pe_expert where pkid
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{ infoid,jdbcType=BIGINT }
+        </foreach>
+        )
+    </delete>
+</mapper>

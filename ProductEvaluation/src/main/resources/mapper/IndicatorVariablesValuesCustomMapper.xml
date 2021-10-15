@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhzk.pe.mapper.IndicatorVariablesValuesCustomMapper">
+    <resultMap id="IndicatorVariablesValuesDataMap" type="com.qhzk.pe.data.IndicatorVariablesValuesData"
+               extends="com.qhzk.pe.mapper.BaseDataMapper.BaseDataMappingColumn">
+        <result column="itemid" jdbcType="BIGINT" property="itemid"/>
+        <result column="optioncode" jdbcType="VARCHAR" property="optioncode"/>
+        <result column="optionname" jdbcType="VARCHAR" property="optionname"/>
+        <result column="optionvalue" jdbcType="DECIMAL" property="optionvalue"/>
+        <result column="isdefault" jdbcType="VARCHAR" property="isdefault"/>
+    </resultMap>
+    <sql id="MyTableColumn">
+    itemid,optioncode,optionname,optionvalue,isdefault
+    </sql>
+    <select id="countIndicatorVariablesValuesPageInfo" parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(*) from t_pe_indicatorVariables_values where pkid is not null
+        <if test="value.itemid != null">
+            and itemid like CONCAT('%', #{ value.itemid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.optioncode != null">
+            and optioncode like CONCAT('%', #{ value.optioncode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.optionname != null">
+            and optionname like CONCAT('%', #{ value.optionname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.optionvalue != null">
+            and optionvalue like CONCAT('%', #{ value.optionvalue ,jdbcType=DECIMAL } ,'%')
+        </if>
+        <if test="value.isdefault != null">
+            and isdefault like CONCAT('%', #{ value.isdefault ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+    </select>
+    <select id="queryIndicatorVariablesValuesPageInfo" parameterType="java.lang.String" resultMap="IndicatorVariablesValuesDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_indicatorVariables_values
+        where pkid is not null
+        <if test="value.itemid != null">
+            and itemid like CONCAT('%', #{ value.itemid ,jdbcType=BIGINT } ,'%')
+        </if>
+        <if test="value.optioncode != null">
+            and optioncode like CONCAT('%', #{ value.optioncode ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.optionname != null">
+            and optionname like CONCAT('%', #{ value.optionname ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <if test="value.optionvalue != null">
+            and optionvalue like CONCAT('%', #{ value.optionvalue ,jdbcType=DECIMAL } ,'%')
+        </if>
+        <if test="value.isdefault != null">
+            and isdefault like CONCAT('%', #{ value.isdefault ,jdbcType=VARCHAR } ,'%')
+        </if>
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryCondition"/>
+        order by createtime desc
+        <if test="page != null">
+            <if test="page.start != null and page.pageSize != null">
+                limit #{page.start},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="IndicatorVariablesValuesDataMap">
+        select
+        <include refid="MyTableColumn"/>
+        ,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataQueryColumn"/>
+        from t_pe_indicatorVariables_values where pkid =  #{pkid,jdbcType=BIGINT} and isdelete ="N"
+    </select>
+
+    <update id="deleteLogicByPrimaryKey" parameterType="java.lang.Long">
+        UPDATE t_pe_indicatorVariables_values SET `isdelete` = 'Y' WHERE `pkid` = #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <update id="batchUpdateValues" parameterType="java.util.List">
+        <foreach collection="values" item="value" index="index" separator=";">
+            UPDATE t_pe_indicatorVariables_values
+            <set>
+                <if test="val.itemid != null">
+                    itemid =#{ value.itemid ,jdbcType=BIGINT},
+                </if>
+                <if test="val.optioncode != null">
+                    optioncode =#{ value.optioncode ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.optionname != null">
+                    optionname =#{ value.optionname ,jdbcType=VARCHAR},
+                </if>
+                <if test="val.optionvalue != null">
+                    optionvalue =#{ value.optionvalue ,jdbcType=DECIMAL},
+                </if>
+                <if test="val.isdefault != null">
+                    isdefault =#{ value.isdefault ,jdbcType=VARCHAR},
+                </if>
+                <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchModifyColumn"/>
+            </set>
+            WHERE pkid = #{value.pkid,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsertValues" parameterType="java.util.List">
+        INSERT INTO t_pe_indicatorVariables_values(
+        itemid,
+        optioncode,
+        optionname,
+        optionvalue,
+        isdefault,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        <foreach collection="values" item="value" index="index" separator=",">
+            (
+            #{ value.itemid ,jdbcType=BIGINT },
+            #{ value.optioncode ,jdbcType=VARCHAR },
+            #{ value.optionname ,jdbcType=VARCHAR },
+            #{ value.optionvalue ,jdbcType=DECIMAL },
+            #{ value.isdefault ,jdbcType=VARCHAR },
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataBatchInsertColumnValue"/>
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.qhzk.pe.data.IndicatorVariablesValuesData">
+        UPDATE t_pe_indicatorVariables_values
+        <set>
+            <if test="itemid != null">
+                itemid =#{ itemid ,jdbcType=BIGINT},
+            </if>
+            <if test="optioncode != null">
+                optioncode =#{ optioncode ,jdbcType=VARCHAR},
+            </if>
+            <if test="optionname != null">
+                optionname =#{ optionname ,jdbcType=VARCHAR},
+            </if>
+            <if test="optionvalue != null">
+                optionvalue =#{ optionvalue ,jdbcType=DECIMAL},
+            </if>
+            <if test="isdefault != null">
+                isdefault =#{ isdefault ,jdbcType=VARCHAR},
+            </if>
+            <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataModifyColumn"/>
+        </set>
+        WHERE pkid =  #{pkid,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.qhzk.pe.data.IndicatorVariablesValuesData" useGeneratedKeys="true" keyProperty="pkid">
+        INSERT INTO t_pe_indicatorVariables_values(
+        itemid,
+        optioncode,
+        optionname,
+        optionvalue,
+        isdefault,
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumn"/>
+        )
+        VALUES
+        (
+        #{ itemid ,jdbcType=BIGINT },
+        #{ optioncode ,jdbcType=VARCHAR },
+        #{ optionname ,jdbcType=VARCHAR },
+        #{ optionvalue ,jdbcType=DECIMAL },
+        #{ isdefault ,jdbcType=VARCHAR },
+        <include refid="com.qhzk.pe.mapper.BaseDataMapper.BaseDataInsertColumnValue"/>
+        )
+    </insert>
+
+    <delete id="deleteRealByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pe_indicatorVariables_values where pkid =  #{pkid,jdbcType=BIGINT}
+    </delete>
+
+    <update id="batchLogicDeleteInfo" parameterType="java.lang.String">
+        UPDATE t_pe_indicatorVariables_values SET `isdelete` = 'Y' WHERE `pkid`
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{infoid,jdbcType=BIGINT}
+        </foreach>
+        )
+    </update>
+
+    <delete id="batchRealDeleteInfo" parameterType="java.lang.String">
+        delete from t_pe_indicatorVariables_values where pkid
+        IN (
+        <foreach collection="infos" item="infoid" index="index" separator=",">
+            #{ infoid,jdbcType=BIGINT }
+        </foreach>
+        )
+    </delete>
+</mapper>
